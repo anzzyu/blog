@@ -14,6 +14,7 @@ const FONT_PLAYPEN_SANS = Playpen_Sans({
   style: ['normal'],
   weight: ['800'],
   variable: '--font-playpen-sans',
+  adjustFontFallback: false,
 });
 
 const FONT_NUNITO = Nunito({
@@ -21,6 +22,7 @@ const FONT_NUNITO = Nunito({
   display: 'swap',
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-nunito',
+  adjustFontFallback: false,
 });
 
 const FONT_JETBRAINS_MONO = JetBrains_Mono({
@@ -28,6 +30,7 @@ const FONT_JETBRAINS_MONO = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-jetbrains-mono',
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
