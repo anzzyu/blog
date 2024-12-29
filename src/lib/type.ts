@@ -6,7 +6,11 @@ export type Blog = {
   tags: string[];
   cover: string;
   readingTime: string;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
   icon: string;
+  status: string;
 };
 
 export type Project = {

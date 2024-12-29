@@ -3,7 +3,9 @@ import type { Metadata } from 'next';
 import { JetBrains_Mono, Nunito, Playpen_Sans } from 'next/font/google';
 
 import '@/app/css/globals.css';
+import { AppSidebar } from '@/components/app-sidebar';
 import { ThemeProvider } from '@/components/theme-provider';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 const FONT_PLAYPEN_SANS = Playpen_Sans({
   subsets: ['latin'],
@@ -63,7 +65,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="mb-auto grow">{children}</main>
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>{children}</SidebarInset>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

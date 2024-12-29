@@ -9,6 +9,7 @@ export const HEADER_NAV_LINKS = [
   { href: '/tags', title: 'Tags', emoji: 'label' },
   { href: '/friends', title: 'Friends', emoji: 'woman-and-man-holding-hands' },
   { href: '/about', title: 'About', emoji: 'smiling-face-with-sunglasses' },
+  { href: '/admin', title: 'Admin', emoji: 'smiling-face-with-sunglasses' },
 ];
 
 export const MORE_NAV_LINKS = [
