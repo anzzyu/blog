@@ -343,3 +343,30 @@ export const PROJECTS: Project[] = [
     builtWith: ['WechatMiniProgram'],
   },
 ];
+
+export const ALL_TAGS = [
+  {
+    id: 'recents',
+    label: 'Recents',
+  },
+  {
+    id: 'home',
+    label: 'Home',
+  },
+  {
+    id: 'applications',
+    label: 'Applications',
+  },
+  {
+    id: 'desktop',
+    label: 'Desktop',
+  },
+  {
+    id: 'downloads',
+    label: 'Downloads',
+  },
+  {
+    id: 'documents',
+    label: 'Documents',
+  },
+] as const;
