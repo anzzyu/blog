@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
@@ -41,7 +42,10 @@ export default function BlogPage() {
           </Breadcrumb>
         </div>
       </div>
-      <div>
+      <div className="flex flex-col gap-4 p-4">
+        <Button asChild className="self-start">
+          <Link href="/admin/blog/create">新建</Link>
+        </Button>
         <Table>
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>

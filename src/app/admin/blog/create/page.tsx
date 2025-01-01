@@ -36,12 +36,11 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Textarea } from '@/components/ui/textarea';
-import { ALL_POSTS, ALL_TAGS } from '@/lib/data';
+import { ALL_TAGS } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -63,19 +62,15 @@ const formSchema = z.object({
   }),
   cover: z.string(),
   content: z.string(),
-  readingTime: z.number(),
-  viewCount: z.number(),
-  likeCount: z.number(),
-  commentCount: z.number(),
+  readingTime: z.coerce.number(),
+  viewCount: z.coerce.number(),
+  likeCount: z.coerce.number(),
+  commentCount: z.coerce.number(),
   icon: z.string(),
   status: z.string(),
 });
 
-export default function EditPage() {
-  const params = useParams();
-  const { slug } = params;
-  const post = ALL_POSTS.find((post) => post.slug === slug);
-
+export default function CreatePage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -112,13 +107,11 @@ export default function EditPage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">
-                  {post?.title}
-                </BreadcrumbLink>
+                <BreadcrumbLink href="/admin/blog">所有文章</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>编辑</BreadcrumbPage>
+                <BreadcrumbPage>新建</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -295,7 +288,11 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>阅读时长</FormLabel>
                   <FormControl>
-                    <Input placeholder="输入阅读时长" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="输入阅读时长"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -308,7 +305,7 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>浏览量</FormLabel>
                   <FormControl>
-                    <Input placeholder="输入浏览量" {...field} />
+                    <Input type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -321,7 +318,7 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>点赞量</FormLabel>
                   <FormControl>
-                    <Input placeholder="输入点赞量" {...field} />
+                    <Input type="number" placeholder="输入点赞量" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -334,7 +331,7 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>评论量</FormLabel>
                   <FormControl>
-                    <Input placeholder="输入评论量" {...field} />
+                    <Input type="number" placeholder="输入评论量" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
