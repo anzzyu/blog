@@ -1,4 +1,3 @@
-import { Image } from '@/components/image';
 import { Link } from '@/components/link';
 import {
   Breadcrumb,
@@ -19,10 +18,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getAllBlogs } from '@/lib/action';
+import { getAllTags } from '@/lib/action';
 
-export default async function BlogPage() {
-  const blogs = await getAllBlogs();
+export default async function TagPage() {
+  const tags = await getAllTags();
 
   return (
     <div>
@@ -37,7 +36,7 @@ export default async function BlogPage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>所有文章</BreadcrumbPage>
+                <BreadcrumbPage>所有标签</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -45,34 +44,24 @@ export default async function BlogPage() {
       </div>
       <div className="flex flex-col gap-4 p-4">
         <Button asChild className="self-start">
-          <Link href="/admin/blog/create">新建</Link>
+          <Link href="/admin/tag/create">新建</Link>
         </Button>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>封面</TableHead>
-              <TableHead>标题</TableHead>
-              <TableHead>摘要</TableHead>
+              <TableHead>名称</TableHead>
+              <TableHead>slug</TableHead>
               <TableHead>操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {blogs.map((blog) => (
-              <TableRow key={blog.slug}>
-                <TableCell>
-                  <Image
-                    src={blog.cover}
-                    alt={blog.title}
-                    width={500}
-                    height={500}
-                    className="h-[80px] w-[80px]"
-                  />
-                </TableCell>
-                <TableCell>{blog.title}</TableCell>
-                <TableCell>{blog.summary}</TableCell>
+            {tags.map((tag) => (
+              <TableRow key={tag.slug}>
+                <TableCell>{tag.name}</TableCell>
+                <TableCell>{tag.slug}</TableCell>
                 <TableCell className="flex gap-2 text-blue-500">
-                  <Link href={`/admin/blog/edit/${blog.slug}`}>编辑</Link>
-                  <Link href={`/admin/blog/delete/${blog.slug}`}>删除</Link>
+                  <Link href={`/admin/tag/edit/${tag.slug}`}>编辑</Link>
+                  <Link href={`/admin/tag/delete/${tag.slug}`}>删除</Link>
                 </TableCell>
               </TableRow>
             ))}

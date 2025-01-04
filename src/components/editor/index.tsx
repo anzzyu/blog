@@ -87,7 +87,7 @@ const TiptapEditor = ({ onChange, initialContent }: TiptapEditorProps) => {
 
   return (
     <TooltipProvider>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
         {editor && (
           <>
             <TextMenu editor={editor} />

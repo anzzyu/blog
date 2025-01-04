@@ -71,13 +71,14 @@ const data = {
       ],
     },
     {
-      title: 'Models',
+      title: '标签',
       url: '#',
       icon: Bot,
+      isActive: true,
       items: [
         {
-          title: 'Genesis',
-          url: '#',
+          title: '所有标签',
+          url: '/admin/tag',
         },
         {
           title: 'Explorer',
