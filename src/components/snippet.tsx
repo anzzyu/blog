@@ -7,7 +7,8 @@ import { Link } from './link';
 import { TiltedGridBackground } from './tilted-grid-background';
 
 export function SnippetCard({ snippet }: { snippet: Blog }) {
-  const { icon, summary, title, slug } = snippet;
+  const icon = 'NextJS';
+  const { summary, title, slug } = snippet;
   return (
     <GradientBorder className="rounded-2xl">
       <Link

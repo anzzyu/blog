@@ -1,16 +1,29 @@
+'use client';
+
 // export const metadata = genPageMetadata({
 //   title: 'Tags',
 //   description: 'Things I blog about',
 // });
 
 import { Container } from '@/components/container';
-import { Tag } from '@/components/tags';
-import tagData from '@/lib/tag-data.json';
+import { TagLink } from '@/components/tags';
+import { getTagCounts } from '@/lib/action';
+import { TagCount } from '@/lib/type';
+import { useEffect, useState } from 'react';
 
-export default async function Page() {
-  const tagCounts = tagData as Record<string, number>;
-  const tagKeys = Object.keys(tagCounts);
-  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
+export default function Page() {
+  // const tagCounts = tagData as Record<string, number>;
+  // const tagKeys = Object.keys(tagCounts);
+  // const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
+  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
+  useEffect(() => {
+    const fetchTagCounts = async () => {
+      const tagCounts = await getTagCounts();
+      setTagCounts(tagCounts);
+    };
+    fetchTagCounts();
+  }, []);
+
   return (
     <Container className="pt-4 md:pt-0">
       <div className="flex flex-col items-start justify-start divide-y divide-gray-200 dark:divide-gray-700 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0">
@@ -20,13 +33,13 @@ export default async function Page() {
           </h1>
         </div>
         <div className="my-8 flex flex-wrap gap-x-5 gap-y-2 py-8 md:my-0 md:py-8">
-          {tagKeys.length === 0 && 'No tags found.'}
-          {sortedTags.map((t) => {
+          {tagCounts.length === 0 && 'No tags found.'}
+          {tagCounts.map((t) => {
             return (
-              <div key={t} className="flex items-center gap-0.5">
-                <Tag text={t} size="md" />
+              <div key={t.slug} className="flex items-center gap-0.5">
+                <TagLink tag={t} size="md" />
                 <span className="text-gray-600 dark:text-gray-300">
-                  ({tagCounts[t]})
+                  ({t.count})
                 </span>
               </div>
             );

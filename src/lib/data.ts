@@ -6,7 +6,7 @@ export const HEADER_NAV_LINKS = [
   { href: '/blog', title: 'Blog', emoji: 'writing-hand' },
   { href: '/snippets', title: 'Snippets', emoji: 'dna' },
   { href: '/projects', title: 'Projects', emoji: 'man-technologist' },
-  { href: '/tags', title: 'Tags', emoji: 'label' },
+  { href: '/tag', title: 'Tag', emoji: 'label' },
   { href: '/friends', title: 'Friends', emoji: 'woman-and-man-holding-hands' },
   { href: '/about', title: 'About', emoji: 'smiling-face-with-sunglasses' },
   { href: '/admin', title: 'Admin', emoji: 'smiling-face-with-sunglasses' },

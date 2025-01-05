@@ -1,14 +1,14 @@
 'use client';
 
-import tagData from '@/lib/tag-data.json';
-import { Blog } from '@/lib/type';
+import { getTagCounts } from '@/lib/action';
+import { Blog, TagCount } from '@/lib/type';
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from './container';
 import { PageHeader } from './page-header';
 import { PostCardGridView } from './post-card-grid-view';
 import { SnippetCard } from './snippet';
-import { Tag } from './tags';
+import { TagLink } from './tags';
 
 interface ListLayoutProps {
   title: string;
@@ -90,20 +90,25 @@ export function ListLayoutWithTags({
 }
 
 function TagsList() {
-  const tagCounts = tagData as Record<string, number>;
-  const tagKeys = Object.keys(tagCounts);
-  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
+  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
+  useEffect(() => {
+    const fetchTagCounts = async () => {
+      const tagCounts = await getTagCounts();
+      setTagCounts(tagCounts);
+    };
+    fetchTagCounts();
+  }, []);
 
   return (
     <div className="hidden max-h-screen w-[300px] shrink-0 py-5 md:flex md:py-10">
       <div className="h-full overflow-auto rounded bg-gray-50 dark:bg-gray-900/70 dark:shadow-gray-800/40">
         <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 px-6 py-4">
-          {sortedTags.map((t) => {
+          {tagCounts.map((t) => {
             return (
-              <li key={t} className="flex items-center gap-0.5">
-                <Tag text={t} size="md" />
+              <li key={t.slug} className="flex items-center gap-0.5">
+                <TagLink tag={t} size="md" />
                 <span className="text-gray-600 dark:text-gray-300">
-                  ({tagCounts[t]})
+                  ({t.count})
                 </span>
               </li>
             );

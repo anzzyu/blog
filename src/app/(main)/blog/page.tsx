@@ -1,8 +1,20 @@
+'use client';
+
 import { ListLayout } from '@/components/list-layout';
-import { ALL_POSTS, POSTS_PER_PAGE } from '@/lib/data';
+import { getAllBlogs } from '@/lib/action';
+import { POSTS_PER_PAGE } from '@/lib/data';
+import { Blog } from '@/lib/type';
+import { useEffect, useState } from 'react';
 
 export default function BlogPage() {
-  const posts = ALL_POSTS;
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await getAllBlogs();
+      setBlogs(blogs);
+    };
+    fetchBlogs();
+  }, []);
   const pageNumber = 1;
   // const initialDisplayPosts = posts.slice(
   //   POSTS_PER_PAGE * (pageNumber - 1),
@@ -10,12 +22,12 @@ export default function BlogPage() {
   // )
   const pagination = {
     currentPage: pageNumber,
-    totalPages: Math.ceil(posts.length / POSTS_PER_PAGE),
+    totalPages: Math.ceil(blogs.length / POSTS_PER_PAGE),
   };
 
   return (
     <ListLayout
-      posts={posts}
+      posts={blogs}
       // initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title="All posts"

@@ -51,3 +51,10 @@ export type Blog = {
   date: Date;
   status: string;
 };
+
+export type TagCount = {
+  id?: number;
+  name: string;
+  slug: string;
+  count: number;
+};

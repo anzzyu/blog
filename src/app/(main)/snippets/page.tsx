@@ -1,12 +1,23 @@
+'use client';
+
 // export const metadata = genPageMetadata({ title: 'Snippets' });
 
 import { Container } from '@/components/container';
 import { PageHeader } from '@/components/page-header';
 import { SnippetCard } from '@/components/snippet';
-import { ALL_SNIPPETS } from '@/lib/data';
+import { getAllBlogs } from '@/lib/action';
+import { Blog } from '@/lib/type';
+import { useEffect, useState } from 'react';
 
 export default function Snippets() {
-  const snippets = ALL_SNIPPETS;
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await getAllBlogs();
+      setBlogs(blogs);
+    };
+    fetchBlogs();
+  }, []);
 
   return (
     <Container className="pt-4 lg:pt-12">
@@ -17,7 +28,7 @@ export default function Snippets() {
       />
       <div className="py-10">
         <div className="grid-cols-2 gap-x-6 gap-y-10 space-y-10 md:grid md:space-y-0">
-          {snippets.map((snippet) => (
+          {blogs.map((snippet) => (
             <SnippetCard snippet={snippet} key={snippet.slug} />
           ))}
         </div>

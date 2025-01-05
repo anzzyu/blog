@@ -1,7 +1,8 @@
+import { Tag } from '@/lib/type';
 import { clsx } from 'clsx';
 import { Link } from './link';
 
-export function TagsList({ tags }: { tags: string[] }) {
+export function TagsList({ tags }: { tags: Tag[] }) {
   if (!tags || tags.length === 0) {
     return null;
   }
@@ -9,23 +10,23 @@ export function TagsList({ tags }: { tags: string[] }) {
   return (
     <div className="flex flex-wrap gap-2 md:gap-3">
       {tags.map((tag) => (
-        <Tag key={tag} text={tag} />
+        <TagLink key={tag.id} tag={tag} />
       ))}
     </div>
   );
 }
 
-export function Tag({
-  text,
+export function TagLink({
+  tag,
   size = 'sm',
 }: {
-  text: string;
+  tag: Tag;
   size?: 'sm' | 'md';
 }) {
   // const tagName = text.split(' ').join('-');
   return (
     <Link
-      href={`/tags/${text}`}
+      href={`/tag/${tag.slug}`}
       className={clsx([
         'rounded-lg px-2 py-0.5 font-semibold',
         'bg-slate-100 text-gray-600 hover:text-gray-800',
@@ -33,7 +34,7 @@ export function Tag({
         size === 'sm' ? 'text-sm' : 'text-base',
       ])}
     >
-      <span data-umami-event={`tag-${text}`}>#{text}</span>
+      <span data-umami-event={`tag-${tag.name}`}>#{tag.name}</span>
     </Link>
   );
 }

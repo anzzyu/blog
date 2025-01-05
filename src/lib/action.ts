@@ -3,14 +3,6 @@
 import prisma from './prisma';
 import { Blog, Tag } from './type';
 
-export async function getTag(slug: string) {
-  return prisma.tag.findFirst({
-    where: {
-      slug: slug,
-    },
-  });
-}
-
 export async function getAllTags() {
   return prisma.tag.findMany();
 }
@@ -42,7 +34,7 @@ export async function deleteTag(id: number) {
   });
 }
 
-export async function getBlog(slug: string) {
+export async function getBlogBySlug(slug: string) {
   return prisma.blog.findFirst({
     where: {
       slug: slug,
@@ -86,6 +78,64 @@ export async function addBlogTag(blogId: number, tagId: number) {
     data: {
       blogId,
       tagId,
+    },
+  });
+}
+
+export async function getTagsByBlogId(blogId: number) {
+  const blogTags = await prisma.blogTag.findMany({
+    where: {
+      blogId,
+    },
+  });
+  const tagIds = blogTags.map((blogTag) => blogTag.tagId);
+  return prisma.tag.findMany({
+    where: {
+      id: {
+        in: tagIds,
+      },
+    },
+  });
+}
+
+export async function getTagCounts() {
+  const tagsCount = await prisma.blogTag.groupBy({
+    by: ['tagId'],
+    _count: {
+      tagId: true,
+    },
+  });
+  const tags = await prisma.tag.findMany();
+
+  return tags.map((tag) => {
+    const count = tagsCount.find((tagCount) => tagCount.tagId === tag.id);
+    return {
+      ...tag,
+      count: count ? count._count.tagId : 0,
+    };
+  });
+}
+
+export async function getTagBySlug(slug: string) {
+  return prisma.tag.findFirst({
+    where: {
+      slug: slug,
+    },
+  });
+}
+
+export async function getBlogsByTagId(tagId: number) {
+  const blogTags = await prisma.blogTag.findMany({
+    where: {
+      tagId,
+    },
+  });
+  const blogIds = blogTags.map((blogTag) => blogTag.blogId);
+  return prisma.blog.findMany({
+    where: {
+      id: {
+        in: blogIds,
+      },
     },
   });
 }
