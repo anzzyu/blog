@@ -20,6 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getAllBlogs } from '@/lib/action';
+import { format } from 'date-fns';
 
 export default async function BlogPage() {
   const blogs = await getAllBlogs();
@@ -33,11 +34,11 @@ export default async function BlogPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">博客</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/blog">文章管理</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>所有文章</BreadcrumbPage>
+                <BreadcrumbPage>列表</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -50,15 +51,30 @@ export default async function BlogPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>封面</TableHead>
+              <TableHead>ID</TableHead>
               <TableHead>标题</TableHead>
-              <TableHead>摘要</TableHead>
+              {/* <TableHead>摘要</TableHead> */}
+              <TableHead>链接</TableHead>
+              <TableHead>封面</TableHead>
+              <TableHead>日期</TableHead>
+              <TableHead>状态</TableHead>
               <TableHead>操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {blogs.map((blog) => (
               <TableRow key={blog.slug}>
+                <TableCell>{blog.id}</TableCell>
+                <TableCell>{blog.title}</TableCell>
+                {/* <TableCell>{blog.summary}</TableCell> */}
+                <TableCell>
+                  <Link
+                    className="text-blue-400 underline"
+                    href={`/blog/${blog.slug}`}
+                  >
+                    {'/' + blog.slug}
+                  </Link>
+                </TableCell>
                 <TableCell>
                   <Image
                     src={blog.cover}
@@ -68,11 +84,21 @@ export default async function BlogPage() {
                     className="h-[80px] w-[80px]"
                   />
                 </TableCell>
-                <TableCell>{blog.title}</TableCell>
-                <TableCell>{blog.summary}</TableCell>
-                <TableCell className="flex gap-2 text-blue-500">
-                  <Link href={`/admin/blog/edit/${blog.slug}`}>编辑</Link>
-                  <Link href={`/admin/blog/delete/${blog.slug}`}>删除</Link>
+                <TableCell>{format(blog.date, 'yyyy-MM-dd')}</TableCell>
+                <TableCell>{blog.status}</TableCell>
+                <TableCell className="text-left">
+                  <Link
+                    className="flex h-[32px] items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-100"
+                    href={`/admin/blog/edit/${blog.slug}`}
+                  >
+                    编辑
+                  </Link>
+                  <Link
+                    className="flex h-[32px] items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-100"
+                    href={`/admin/blog/delete/${blog.slug}`}
+                  >
+                    删除
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

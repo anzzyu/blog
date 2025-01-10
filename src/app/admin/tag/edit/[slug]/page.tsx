@@ -22,7 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
-import { getTag, updateTag } from '@/lib/action';
+import { getTagBySlug, updateTag } from '@/lib/action';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -51,7 +51,7 @@ export default function EditPage() {
 
   useEffect(() => {
     const fetchTag = async () => {
-      const tagData = await getTag(slug as string);
+      const tagData = await getTagBySlug(slug as string);
       setTag(tagData);
     };
     fetchTag();
@@ -66,7 +66,11 @@ export default function EditPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateTag(tag?.id as number, values.name, values.slug);
+    updateTag({
+      id: tag?.id as number,
+      name: values.name,
+      slug: values.slug,
+    });
     toast({
       description: '标签更新成功！',
     });

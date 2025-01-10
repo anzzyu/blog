@@ -36,67 +36,117 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Textarea } from '@/components/ui/textarea';
-import { ALL_POSTS, ALL_TAGS } from '@/lib/data';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
+import {
+  addBlogTag,
+  deleteBlogTags,
+  getAllTags,
+  getBlogBySlug,
+  updateBlog,
+} from '@/lib/action';
+import { Blog, Tag } from '@/lib/type';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  slug: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  date: z.date({
-    required_error: 'A date of birth is required.',
-  }),
   title: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: '标题必须大于2个字符',
   }),
   summary: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+    message: '摘要必须大于2个字符',
   }),
-  tags: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: 'You have to select at least one item.',
+  content: z.string().min(2, {
+    message: '内容必须大于2个字符',
+  }),
+  slug: z.string().min(2, {
+    message: 'slug必须大于2个字符',
   }),
   cover: z.string(),
-  content: z.string(),
-  readingTime: z.number(),
-  viewCount: z.number(),
-  likeCount: z.number(),
-  commentCount: z.number(),
-  icon: z.string(),
-  status: z.string(),
+  readingTime: z.coerce.number(),
+  viewCount: z.coerce.number(),
+  likeCount: z.coerce.number(),
+  commentCount: z.coerce.number(),
+  date: z.date({
+    required_error: '日期是必须的',
+  }),
+  tags: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: '必须选择至少一个标签',
+  }),
+  status: z.string().nonempty(),
 });
 
 export default function EditPage() {
+  const { toast } = useToast();
   const params = useParams();
   const { slug } = params;
-  const post = ALL_POSTS.find((post) => post.slug === slug);
+
+  const [blog, setBlog] = useState<Blog>();
+  const [tags, setTags] = useState<Tag[]>([]);
+  // const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      const blog = await getBlogBySlug(slug as string);
+      setBlog(blog as Blog);
+    };
+    const fetchTags = async () => {
+      const tags = await getAllTags();
+      setTags(tags);
+    };
+    fetchBlog();
+    fetchTags();
+  }, [slug]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      slug: '',
-      date: new Date(),
-      title: '',
-      summary: '',
-      tags: [],
-      cover: '',
-      content: '',
-      readingTime: 0,
-      viewCount: 0,
-      likeCount: 0,
-      commentCount: 0,
-      icon: '',
-      status: '',
-    },
+    // defaultValues: {
+    //   title: '',
+    //   summary: '',
+    //   content: '',
+    //   slug: '',
+    //   cover: '',
+    //   readingTime: 0,
+    //   viewCount: 0,
+    //   likeCount: 0,
+    //   commentCount: 0,
+    //   date: new Date(),
+    //   tags: [],
+    //   status: '',
+    // },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  // useEffect(() => {
+  //   const selectedTags = tags.map((tag) => tag.id!.toString());
+  //   setSelectedTags(selectedTags);
+  // }, [tags]);
+
+  if (!blog) {
+    return null;
+  }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    await updateBlog({
+      id: blog?.id,
+      ...values,
+    });
+
+    deleteBlogTags(blog!.id!);
+
+    for (const tag of values.tags) {
+      addBlogTag(blog!.id!, Number(tag));
+    }
+
+    toast({
+      description: '文章更新成功！',
+    });
   }
 
   return (
@@ -108,13 +158,7 @@ export default function EditPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">博客</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">
-                  {post?.title}
-                </BreadcrumbLink>
+                <BreadcrumbLink href="/admin/blog">文章管理</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -129,16 +173,120 @@ export default function EditPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>标题</FormLabel>
+                  <FormControl>
+                    <Input {...field} defaultValue={blog.title} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="summary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>摘要</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} value={blog.summary} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>内容</FormLabel>
+                  <FormControl>
+                    <TiptapEditor
+                      onChange={field.onChange}
+                      initialContent={blog.content}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>SLUG</FormLabel>
+                  <FormLabel>链接</FormLabel>
                   <FormControl>
-                    <Input placeholder="输入SLUG" {...field} />
+                    <Input {...field} value={blog.slug} />
                   </FormControl>
-                  {/* <FormDescription>
-                    This is your public display name.
-                  </FormDescription> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="cover"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>封面</FormLabel>
+                  <FormControl>
+                    <Input {...field} value={blog.cover} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="readingTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>阅读时长</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} value={blog.readingTime} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="viewCount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>浏览量</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} value={blog.viewCount} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="likeCount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>点赞量</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} value={blog.likeCount} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="commentCount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>评论量</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} value={blog.commentCount} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -180,61 +328,6 @@ export default function EditPage() {
                       />
                     </PopoverContent>
                   </Popover>
-                  {/* <FormDescription>
-                Your date of birth is used to calculate your age.
-              </FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>标题</FormLabel>
-                  <FormControl>
-                    <Input placeholder="输入标题" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="summary"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>摘要</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="输入摘要" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="cover"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>封面</FormLabel>
-                  <FormControl>
-                    <Input placeholder="输入封面" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>内容</FormLabel>
-                  <FormControl>
-                    <TiptapEditor onChange={field.onChange} />
-                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -246,38 +339,44 @@ export default function EditPage() {
                 <FormItem>
                   <div className="mb-4">
                     <FormLabel className="text-base">标签</FormLabel>
-                    {/* <FormDescription>
-                      Select the items you want to display in the sidebar.
-                    </FormDescription> */}
                   </div>
-                  {ALL_TAGS.map((item) => (
+                  {tags.map((tag) => (
                     <FormField
-                      key={item.id}
+                      key={tag.id!.toString()}
                       control={form.control}
                       name="tags"
                       render={({ field }) => {
                         return (
                           <FormItem
-                            key={item.id}
+                            key={tag.id!.toString()}
                             className="flex flex-row items-start space-x-3 space-y-0"
                           >
                             <FormControl>
                               <Checkbox
                                 {...field}
-                                checked={field.value?.includes(item.id)}
+                                checked={field.value?.includes(
+                                  tag.id!.toString()
+                                )}
+                                // defaultChecked={selectedTags.includes(
+                                //   tag.id!.toString()
+                                // )}
                                 onCheckedChange={(checked) => {
                                   return checked
-                                    ? field.onChange([...field.value, item.id])
+                                    ? field.onChange([
+                                        ...field.value,
+                                        tag.id!.toString(),
+                                      ])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== item.id
+                                          (value) =>
+                                            value !== tag.id!.toString()
                                         )
                                       );
                                 }}
                               />
                             </FormControl>
                             <FormLabel className="text-sm font-normal">
-                              {item.label}
+                              {tag.name}
                             </FormLabel>
                           </FormItem>
                         );
@@ -290,65 +389,13 @@ export default function EditPage() {
             />
             <FormField
               control={form.control}
-              name="readingTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>阅读时长</FormLabel>
-                  <FormControl>
-                    <Input placeholder="输入阅读时长" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="viewCount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>浏览量</FormLabel>
-                  <FormControl>
-                    <Input placeholder="输入浏览量" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="likeCount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>点赞量</FormLabel>
-                  <FormControl>
-                    <Input placeholder="输入点赞量" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="commentCount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>评论量</FormLabel>
-                  <FormControl>
-                    <Input placeholder="输入评论量" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="status"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>状态</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={blog.status}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -360,18 +407,15 @@ export default function EditPage() {
                       <SelectItem value="下线">下线</SelectItem>
                     </SelectContent>
                   </Select>
-                  {/* <FormDescription>
-                You can manage email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
-              </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">提交</Button>
           </form>
         </Form>
       </div>
+      <Toaster />
     </div>
   );
 }

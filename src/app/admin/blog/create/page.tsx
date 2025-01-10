@@ -108,19 +108,9 @@ export default function CreatePage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    const blog = await addBlog({
-      title: values.title,
-      summary: values.summary,
-      content: values.content,
-      slug: values.slug,
-      cover: values.cover,
-      readingTime: values.readingTime,
-      viewCount: values.viewCount,
-      likeCount: values.likeCount,
-      commentCount: values.commentCount,
-      date: values.date,
-      status: values.status,
-    });
+    const { tags, ...blogData } = values;
+    console.log(tags);
+    const blog = await addBlog(blogData);
 
     for (const tag of values.tags) {
       addBlogTag(blog.id, Number(tag));
@@ -140,11 +130,7 @@ export default function CreatePage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">博客</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">所有文章</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/blog">文章管理</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -201,7 +187,7 @@ export default function CreatePage() {
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>slug</FormLabel>
+                  <FormLabel>链接</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -391,7 +377,7 @@ export default function CreatePage() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">提交</Button>
           </form>
         </Form>
       </div>

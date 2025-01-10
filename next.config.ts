@@ -2,6 +2,15 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  async redirects() {
+    return [
+      {
+        source: '/admin',
+        destination: '/admin/blog',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     domains: ['api.horosama.com', 'www.mengke.me'],
   },

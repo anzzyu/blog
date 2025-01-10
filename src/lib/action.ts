@@ -43,7 +43,11 @@ export async function getBlogBySlug(slug: string) {
 }
 
 export async function getAllBlogs() {
-  return prisma.blog.findMany();
+  return prisma.blog.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+  });
 }
 
 export async function addBlog(blog: Blog) {
@@ -136,6 +140,14 @@ export async function getBlogsByTagId(tagId: number) {
       id: {
         in: blogIds,
       },
+    },
+  });
+}
+
+export async function deleteBlogTags(blogId: number) {
+  return prisma.blogTag.deleteMany({
+    where: {
+      blogId,
     },
   });
 }

@@ -1,3 +1,4 @@
+import '@/app/css/editor.css';
 import { getTagsByBlogId } from '@/lib/action';
 import { Blog, Tag } from '@/lib/type';
 import { useEffect, useState } from 'react';
@@ -72,7 +73,10 @@ export function PostLayout({ blog }: { blog: Blog }) {
         <div className="grid grid-cols-1 gap-12 pb-10 pt-8 lg:grid-cols-12 lg:pt-10">
           <div className="divide-y divide-gray-200 dark:divide-gray-700 lg:col-span-8 xl:col-span-9">
             <div className="prose dark:prose-invert lg:prose-lg max-w-none lg:pb-8">
-              {blog.content}
+              <div
+                className="tiptap"
+                dangerouslySetInnerHTML={{ __html: blog.content }}
+              />
             </div>
           </div>
           <div className="hidden lg:col-span-4 lg:block xl:col-span-3">
