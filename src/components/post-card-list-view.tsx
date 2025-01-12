@@ -1,9 +1,8 @@
 import clsx from 'clsx';
 
-import { getTagsByBlogId } from '@/lib/action';
-import { Blog, Tag } from '@/lib/type';
+import { BlogWithTags } from '@/lib/type';
 import { formatDate } from '@/lib/utils';
-import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import { GritBackground } from './grit-background';
 import { GrowingUnderline } from './growing-underline';
 import { Image } from './image';
@@ -11,27 +10,27 @@ import { Link } from './link';
 import { TagsList } from './tags';
 
 export function PostCardListView({
-  post,
+  blogWithTags,
   loading,
 }: {
-  post: Blog;
+  blogWithTags: BlogWithTags;
   loading?: 'lazy' | 'eager';
 }) {
-  const [tags, setTags] = useState<Tag[]>([]);
+  // const [tags, setTags] = useState<Tag[]>([]);
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      const tags = await getTagsByBlogId(post.id!);
-      setTags(tags);
-    };
-    fetchTags();
-  }, [post.id]);
+  // useEffect(() => {
+  //   const fetchTags = async () => {
+  //     const tags = await getTagsByBlogId(post.id!);
+  //     setTags(tags);
+  //   };
+  //   fetchTags();
+  // }, [post.id]);
 
   return (
     <article>
       <div className="flex flex-col gap-2 space-y-3 md:flex-row md:gap-8">
         <Link
-          href={`/blog/${post.slug}`}
+          href={`/blog/${blogWithTags.blog.slug}`}
           className={clsx([
             'relative block shrink-0',
             'h-auto w-full md:h-80 md:w-72',
@@ -40,8 +39,8 @@ export function PostCardListView({
           ])}
         >
           <Image
-            src={post.cover}
-            alt={post.title}
+            src={blogWithTags.blog.cover}
+            alt={blogWithTags.blog.title}
             width={500}
             height={500}
             className="aspect-video h-full w-full rounded-xl shadow-2xl"
@@ -60,37 +59,37 @@ export function PostCardListView({
               <dl className="text-sm">
                 <dt className="sr-only">Published on</dt>
                 <dd className="font-medium leading-6 text-gray-500 dark:text-gray-400">
-                  <time dateTime={post.date.toISOString()}>
-                    {formatDate(post.date.toISOString())}
+                  <time dateTime={format(blogWithTags.blog.date, 'yyyy-MM-dd')}>
+                    {formatDate(format(blogWithTags.blog.date, 'yyyy-MM-dd'))}
                   </time>
                   <span className="mx-2 text-gray-400">/</span>
-                  <span>{post.readingTime} mins read</span>
+                  <span>{blogWithTags.blog.readingTime} mins read</span>
                 </dd>
               </dl>
               <h2 className="pb-1 text-xl font-bold tracking-tight md:text-2xl">
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={`/blog/${blogWithTags.blog.slug}`}
                   className="text-gray-900 dark:text-gray-100"
                 >
                   <GrowingUnderline
                     data-umami-event="latest-post-title"
                     duration={500}
                   >
-                    {post.title}
+                    {blogWithTags.blog.title}
                   </GrowingUnderline>
                 </Link>
               </h2>
-              <TagsList tags={tags} />
+              <TagsList tags={blogWithTags.tags} />
             </div>
             <div className="line-clamp-2 text-gray-500 dark:text-gray-400 md:line-clamp-3">
-              {post.summary}
+              {blogWithTags.blog.summary}
             </div>
           </div>
           <div className="text-base font-medium leading-6">
             <Link
-              href={`/blog/${post.slug}`}
+              href={`/blog/${blogWithTags.blog.slug}`}
               className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300"
-              aria-label={`Read "${post.title}"`}
+              aria-label={`Read "${blogWithTags.blog.title}"`}
             >
               <GrowingUnderline data-umami-event="latest-post-read-more">
                 Read article →

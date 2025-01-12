@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from './prisma';
-import { Blog, Tag } from './type';
+import { Blog, BlogWithTags, Tag } from './type';
 
 export async function getAllTags() {
   return prisma.tag.findMany();
@@ -175,4 +175,55 @@ export async function deleteBlogTags(blogId: number) {
       blogId,
     },
   });
+}
+
+export async function getBlogWithTagsByPage(
+  pageNumber: number,
+  pageSize: number
+) {
+  const skip = (pageNumber - 1) * pageSize;
+  const take = pageSize;
+  const blogs = await prisma.blog.findMany({
+    skip,
+    take,
+    orderBy: {
+      id: 'desc',
+    },
+  });
+
+  const blogIds = blogs.map((blog) => blog.id);
+  const blogTags = await prisma.blogTag.findMany({
+    where: {
+      blogId: {
+        in: blogIds,
+      },
+    },
+  });
+  const tagIds = blogTags.map((blogTag) => blogTag.tagId);
+  const tags = await prisma.tag.findMany({
+    where: {
+      id: {
+        in: tagIds,
+      },
+    },
+  });
+
+  const res: BlogWithTags[] = [];
+
+  for (const blog of blogs) {
+    const blogWithTags: BlogWithTags = {
+      blog,
+      tags: [],
+    };
+    for (const blogTag of blogTags) {
+      if (blogTag.blogId === blog.id) {
+        const tag = tags.find((tag) => tag.id === blogTag.tagId);
+        if (tag) {
+          blogWithTags.tags.push(tag);
+        }
+      }
+    }
+    res.push(blogWithTags);
+  }
+  return res;
 }

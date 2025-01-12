@@ -58,3 +58,8 @@ export type TagCount = {
   slug: string;
   count: number;
 };
+
+export type BlogWithTags = {
+  blog: Blog;
+  tags: Tag[];
+};

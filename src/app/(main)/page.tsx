@@ -8,18 +8,18 @@ import { LatestPosts } from '@/components/latest-posts';
 import { ProfileCard } from '@/components/profile-card';
 import { Twemoji } from '@/components/twemoji';
 import { TypedBios } from '@/components/typed-bios';
-import { getAllBlogs } from '@/lib/action';
-import { Blog } from '@/lib/type';
+import { getBlogWithTagsByPage } from '@/lib/action';
+import { BlogWithTags } from '@/lib/type';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogWithTagsList, setBlogWithTagsList] = useState<BlogWithTags[]>([]);
   useEffect(() => {
-    const fetchBlogs = async () => {
-      const blogs = await getAllBlogs();
-      setBlogs(blogs);
+    const fetchBlogWithTags = async () => {
+      const blogWithTagsList = await getBlogWithTagsByPage(1, 5);
+      setBlogWithTagsList(blogWithTagsList);
     };
-    fetchBlogs();
+    fetchBlogWithTags();
   }, []);
   return (
     <Container as="div" className="pt-4 lg:pt-12">
@@ -52,12 +52,7 @@ export default function Home() {
           <ProfileCard />
         </div>
       </div>
-      <LatestPosts posts={blogs} snippets={blogs} />
-      {/* {SITE_METADATA.newsletter?.provider && (
-        <div className="flex items-center justify-center py-4 lg:py-10">
-          <NewsletterForm />
-        </div>
-      )} */}
+      <LatestPosts blogWithTagsList={blogWithTagsList} />
     </Container>
   );
 }
