@@ -43,6 +43,7 @@ import {
   deleteBlogTags,
   getAllTags,
   getBlogBySlug,
+  getBlogTagsByBlogSlug,
   updateBlog,
 } from '@/lib/action';
 import { Blog, Tag } from '@/lib/type';
@@ -89,43 +90,43 @@ export default function EditPage() {
 
   const [blog, setBlog] = useState<Blog>();
   const [tags, setTags] = useState<Tag[]>([]);
-  // const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetchBlog = async () => {
-      const blog = await getBlogBySlug(slug as string);
-      setBlog(blog as Blog);
-    };
-    const fetchTags = async () => {
-      const tags = await getAllTags();
-      setTags(tags);
-    };
-    fetchBlog();
-    fetchTags();
-  }, [slug]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   title: '',
-    //   summary: '',
-    //   content: '',
-    //   slug: '',
-    //   cover: '',
-    //   readingTime: 0,
-    //   viewCount: 0,
-    //   likeCount: 0,
-    //   commentCount: 0,
-    //   date: new Date(),
-    //   tags: [],
-    //   status: '',
-    // },
   });
 
-  // useEffect(() => {
-  //   const selectedTags = tags.map((tag) => tag.id!.toString());
-  //   setSelectedTags(selectedTags);
-  // }, [tags]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const [blog, blogTags, tags] = await Promise.all([
+        getBlogBySlug(slug as string),
+        getBlogTagsByBlogSlug(slug as string),
+        getAllTags(),
+      ]);
+
+      setBlog(blog as Blog);
+      setSelectedTags(blogTags.map((tag) => tag.tagId.toString()));
+      setTags(tags);
+
+      form.setValue('title', blog!.title);
+      form.setValue('summary', blog!.summary);
+      form.setValue('content', blog!.content);
+      form.setValue('slug', blog!.slug);
+      form.setValue('cover', blog!.cover);
+      form.setValue('readingTime', blog!.readingTime);
+      form.setValue('viewCount', blog!.viewCount);
+      form.setValue('likeCount', blog!.likeCount);
+      form.setValue('commentCount', blog!.commentCount);
+      form.setValue('date', blog!.date);
+      form.setValue(
+        'tags',
+        blogTags.map((tag) => tag.tagId.toString())
+      );
+      form.setValue('status', blog!.status);
+    };
+
+    fetchData();
+  }, [slug, form]);
 
   if (!blog) {
     return null;
@@ -133,9 +134,12 @@ export default function EditPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    const { tags, ...blogData } = values;
+    console.log(tags);
+
     await updateBlog({
       id: blog?.id,
-      ...values,
+      ...blogData,
     });
 
     deleteBlogTags(blog!.id!);
@@ -178,7 +182,10 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>标题</FormLabel>
                   <FormControl>
-                    <Input {...field} defaultValue={blog.title} />
+                    <Input
+                      onChange={field.onChange}
+                      defaultValue={blog.title}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -191,7 +198,10 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>摘要</FormLabel>
                   <FormControl>
-                    <Textarea {...field} value={blog.summary} />
+                    <Textarea
+                      onChange={field.onChange}
+                      defaultValue={blog.summary}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -220,7 +230,7 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>链接</FormLabel>
                   <FormControl>
-                    <Input {...field} value={blog.slug} />
+                    <Input onChange={field.onChange} defaultValue={blog.slug} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -233,7 +243,10 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>封面</FormLabel>
                   <FormControl>
-                    <Input {...field} value={blog.cover} />
+                    <Input
+                      onChange={field.onChange}
+                      defaultValue={blog.cover}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -246,7 +259,11 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>阅读时长</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} value={blog.readingTime} />
+                    <Input
+                      type="number"
+                      onChange={field.onChange}
+                      defaultValue={blog.readingTime}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -259,7 +276,11 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>浏览量</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} value={blog.viewCount} />
+                    <Input
+                      type="number"
+                      onChange={field.onChange}
+                      defaultValue={blog.viewCount}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -272,7 +293,11 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>点赞量</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} value={blog.likeCount} />
+                    <Input
+                      type="number"
+                      onChange={field.onChange}
+                      defaultValue={blog.likeCount}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -285,7 +310,11 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>评论量</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} value={blog.commentCount} />
+                    <Input
+                      type="number"
+                      onChange={field.onChange}
+                      defaultValue={blog.commentCount}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -307,11 +336,10 @@ export default function EditPage() {
                             !field.value && 'text-muted-foreground'
                           )}
                         >
-                          {field.value ? (
-                            format(field.value, 'PPP')
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
+                          {field.value
+                            ? format(field.value, 'PPP')
+                            : // <span>Pick a date</span>
+                              format(blog.date, 'PPP')}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
@@ -342,40 +370,37 @@ export default function EditPage() {
                   </div>
                   {tags.map((tag) => (
                     <FormField
-                      key={tag.id!.toString()}
+                      key={tag.id}
                       control={form.control}
                       name="tags"
                       render={({ field }) => {
                         return (
                           <FormItem
-                            key={tag.id!.toString()}
+                            key={tag.id}
                             className="flex flex-row items-start space-x-3 space-y-0"
                           >
                             <FormControl>
                               <Checkbox
-                                {...field}
-                                checked={field.value?.includes(
+                                defaultChecked={selectedTags.includes(
                                   tag.id!.toString()
                                 )}
-                                // defaultChecked={selectedTags.includes(
-                                //   tag.id!.toString()
-                                // )}
                                 onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([
-                                        ...field.value,
-                                        tag.id!.toString(),
-                                      ])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) =>
-                                            value !== tag.id!.toString()
-                                        )
-                                      );
+                                  if (checked) {
+                                    field.onChange([
+                                      ...field.value,
+                                      tag.id!.toString(),
+                                    ]);
+                                  } else {
+                                    field.onChange(
+                                      field.value.filter(
+                                        (value) => value !== tag.id!.toString()
+                                      )
+                                    );
+                                  }
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="text-sm font-normal">
+                            <FormLabel className="font-normal">
                               {tag.name}
                             </FormLabel>
                           </FormItem>

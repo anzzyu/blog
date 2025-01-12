@@ -8,6 +8,12 @@ export async function getAllTags() {
 }
 
 export async function addTag(tag: Tag) {
+  const checkTag = await prisma.tag.findFirst({
+    where: { slug: tag.slug },
+  });
+  if (checkTag) {
+    return 'error';
+  }
   return prisma.tag.create({
     data: {
       ...tag,
@@ -51,6 +57,12 @@ export async function getAllBlogs() {
 }
 
 export async function addBlog(blog: Blog) {
+  const checkBlog = await prisma.blog.findFirst({
+    where: { slug: blog.slug },
+  });
+  if (checkBlog) {
+    return 'error';
+  }
   return prisma.blog.create({
     data: {
       ...blog,
@@ -59,13 +71,13 @@ export async function addBlog(blog: Blog) {
 }
 
 export async function updateBlog(blog: Blog) {
+  const { id, ...data } = blog;
+  console.log(id);
   return prisma.blog.update({
     where: {
       id: blog.id,
     },
-    data: {
-      ...blog,
-    },
+    data,
   });
 }
 
@@ -84,6 +96,19 @@ export async function addBlogTag(blogId: number, tagId: number) {
       tagId,
     },
   });
+}
+
+export async function getBlogTagsByBlogId(blogId: number) {
+  return prisma.blogTag.findMany({
+    where: {
+      blogId,
+    },
+  });
+}
+
+export async function getBlogTagsByBlogSlug(blogSlug: string) {
+  const blog = await getBlogBySlug(blogSlug);
+  return getBlogTagsByBlogId(blog!.id!);
 }
 
 export async function getTagsByBlogId(blogId: number) {

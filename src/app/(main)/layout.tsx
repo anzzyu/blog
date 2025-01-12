@@ -63,6 +63,7 @@ export default function RootLayout({
           'dark:bg-dark dark:text-gray-100',
         ])}
       >
+        {/* <TiltedGridBackground className="inset-x-0 top-0 z-[-1] h-[50vh]" /> */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

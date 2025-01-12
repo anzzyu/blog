@@ -49,8 +49,7 @@ export default function CreatePage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     addTag({
-      name: values.name,
-      slug: values.slug,
+      ...values,
     });
     toast({
       description: '标签创建成功！',
@@ -66,11 +65,7 @@ export default function CreatePage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/tag">博客</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/tag">所有标签</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/tag">标签管理</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -101,7 +96,7 @@ export default function CreatePage() {
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>slug</FormLabel>
+                  <FormLabel>链接</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -109,7 +104,7 @@ export default function CreatePage() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">提交</Button>
           </form>
         </Form>
       </div>

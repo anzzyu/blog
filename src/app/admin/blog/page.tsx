@@ -1,3 +1,5 @@
+'use client';
+
 import { Image } from '@/components/image';
 import { Link } from '@/components/link';
 import {
@@ -20,10 +22,19 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getAllBlogs } from '@/lib/action';
+import { Blog } from '@/lib/type';
 import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
 
-export default async function BlogPage() {
-  const blogs = await getAllBlogs();
+export default function BlogPage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await getAllBlogs();
+      setBlogs(blogs);
+    };
+    fetchBlogs();
+  }, []);
 
   return (
     <div>
@@ -86,15 +97,15 @@ export default async function BlogPage() {
                 </TableCell>
                 <TableCell>{format(blog.date, 'yyyy-MM-dd')}</TableCell>
                 <TableCell>{blog.status}</TableCell>
-                <TableCell className="text-left">
+                <TableCell>
                   <Link
-                    className="flex h-[32px] items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-100"
+                    className="mr-2 rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-200"
                     href={`/admin/blog/edit/${blog.slug}`}
                   >
                     编辑
                   </Link>
                   <Link
-                    className="flex h-[32px] items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-100"
+                    className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-200"
                     href={`/admin/blog/delete/${blog.slug}`}
                   >
                     删除

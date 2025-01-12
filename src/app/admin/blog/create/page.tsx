@@ -75,6 +75,21 @@ const formSchema = z.object({
   status: z.string().nonempty(),
 });
 
+function addHeadingId(content: string) {
+  const regex = /<h(\d)>(.*?)<\/h\d>/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(content))) {
+    console.log(match);
+    console.log(`#${match[2].trim()}`);
+    content = content.replace(
+      match[0],
+      `<h${match[1]} id="${match[2].trim()}">${match[2]}</h${match[1]}>
+    `
+    );
+  }
+  return content;
+}
+
 export default function CreatePage() {
   const { toast } = useToast();
 
@@ -110,14 +125,18 @@ export default function CreatePage() {
     console.log(values);
     const { tags, ...blogData } = values;
     console.log(tags);
+    const newContent = addHeadingId(values.content);
+    blogData.content = newContent;
     const blog = await addBlog(blogData);
-
+    if (blog === 'error') {
+      return;
+    }
     for (const tag of values.tags) {
       addBlogTag(blog.id, Number(tag));
     }
 
     toast({
-      description: '标签创建成功！',
+      description: '文章创建成功！',
     });
   }
 

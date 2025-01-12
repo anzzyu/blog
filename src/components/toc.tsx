@@ -10,6 +10,20 @@ type TocItem = {
   depth: number;
 };
 
+function generateToc(content: string): TocItem[] {
+  const toc: TocItem[] = [];
+  const regex = /<h(\d) id="(.*)">(.*?)<\/h\d>/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(content))) {
+    toc.push({
+      value: match[3].trim(),
+      url: `#${match[3].trim()}`,
+      depth: Number(match[1]),
+    });
+  }
+  return toc;
+}
+
 function useActiveTocItem(ids: string[]) {
   const [inViewIds, setInViewIds] = useState<string[]>([]);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -37,22 +51,25 @@ function useActiveTocItem(ids: string[]) {
         { rootMargin: '-96px 0% 0% 0%' }
       );
       for (const el of headings) {
-        el && observer.current.observe(el);
+        if (el) {
+          observer.current.observe(el);
+        }
       }
       return () => observer.current?.disconnect();
     }
-  }, [ids]);
+  }, [ids, inViewIds]);
 
   return inViewIds[0];
 }
 
 export function TableOfContents({
-  toc,
+  content,
   className,
 }: {
-  toc: TocItem[];
+  content: string;
   className?: string;
 }) {
+  const toc: TocItem[] = generateToc(content);
   const ids = toc.map((item) => item.url);
   const activeId = useActiveTocItem(ids);
 

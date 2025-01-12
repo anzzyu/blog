@@ -23,6 +23,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import { getTagBySlug, updateTag } from '@/lib/action';
+import { Tag } from '@/lib/type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -43,33 +44,32 @@ export default function EditPage() {
   const params = useParams();
   const { slug } = params;
 
-  const [tag, setTag] = useState<{
-    name: string;
-    id: number;
-    slug: string;
-  } | null>(null);
-
-  useEffect(() => {
-    const fetchTag = async () => {
-      const tagData = await getTagBySlug(slug as string);
-      setTag(tagData);
-    };
-    fetchTag();
-  }, [slug]);
+  const [tag, setTag] = useState<Tag>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: tag?.name || '',
-      slug: tag?.slug || '',
-    },
   });
 
+  useEffect(() => {
+    const fetchTag = async () => {
+      const tag = await getTagBySlug(slug as string);
+      setTag(tag as Tag);
+
+      form.setValue('name', tag!.name);
+      form.setValue('slug', tag!.slug);
+    };
+    fetchTag();
+  }, [slug, form]);
+
+  if (!tag) {
+    return <div>Loading...</div>;
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
     updateTag({
       id: tag?.id as number,
-      name: values.name,
-      slug: values.slug,
+      ...values,
     });
     toast({
       description: '标签更新成功！',
@@ -85,11 +85,7 @@ export default function EditPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/tag">博客</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/tag">所有标签</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/tag">标签管理</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -109,7 +105,11 @@ export default function EditPage() {
                 <FormItem>
                   <FormLabel>名称</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder={tag?.name} {...field} />
+                    <Input
+                      type="text"
+                      onChange={field.onChange}
+                      defaultValue={tag.name}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,15 +120,15 @@ export default function EditPage() {
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>slug</FormLabel>
+                  <FormLabel>链接</FormLabel>
                   <FormControl>
-                    <Input placeholder={tag?.slug} {...field} />
+                    <Input defaultValue={tag.slug} onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">提交</Button>
           </form>
         </Form>
       </div>

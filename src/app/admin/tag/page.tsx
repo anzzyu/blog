@@ -1,3 +1,5 @@
+'use client';
+
 import { Link } from '@/components/link';
 import {
   Breadcrumb,
@@ -19,9 +21,18 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getAllTags } from '@/lib/action';
+import { Tag } from '@/lib/type';
+import { useEffect, useState } from 'react';
 
-export default async function TagPage() {
-  const tags = await getAllTags();
+export default function TagPage() {
+  const [tags, setTags] = useState<Tag[]>([]);
+  useEffect(() => {
+    const fetchTags = async () => {
+      const tags = await getAllTags();
+      setTags(tags);
+    };
+    fetchTags();
+  }, []);
 
   return (
     <div>
@@ -32,11 +43,11 @@ export default async function TagPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin/blog">博客</BreadcrumbLink>
+                <BreadcrumbLink href="/admin/tag">标签管理</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>所有标签</BreadcrumbPage>
+                <BreadcrumbPage>列表</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -50,18 +61,35 @@ export default async function TagPage() {
           <TableHeader>
             <TableRow>
               <TableHead>名称</TableHead>
-              <TableHead>slug</TableHead>
+              <TableHead>链接</TableHead>
               <TableHead>操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {tags.map((tag) => (
-              <TableRow key={tag.slug}>
+              <TableRow key={tag.slug} className="h-[50px]">
                 <TableCell>{tag.name}</TableCell>
-                <TableCell>{tag.slug}</TableCell>
-                <TableCell className="flex gap-2 text-blue-500">
-                  <Link href={`/admin/tag/edit/${tag.slug}`}>编辑</Link>
-                  <Link href={`/admin/tag/delete/${tag.slug}`}>删除</Link>
+                <TableCell>
+                  <Link
+                    className="text-blue-400 underline"
+                    href={`/tag/${tag.slug}`}
+                  >
+                    {'/' + tag.slug}
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <Link
+                    className="mr-2 rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-200"
+                    href={`/admin/tag/edit/${tag.slug}`}
+                  >
+                    编辑
+                  </Link>
+                  <Link
+                    className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-200"
+                    href={`/admin/tag/delete/${tag.slug}`}
+                  >
+                    删除
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

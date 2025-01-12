@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: false,
   async redirects() {
     return [
       {
@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    domains: ['api.horosama.com', 'www.mengke.me'],
+    domains: ['gips3.baidu.com'],
   },
   webpack: (config) => {
     config.module.rules.push({
