@@ -3,19 +3,12 @@ import { FriendsList } from '@/components/friends-list';
 import { PageHeader } from '@/components/page-header';
 import friends from '@/lib/friends.json' assert { type: 'json' };
 
-// const MAX_POSTS_DISPLAY = 5
-// const MAX_SNIPPETS_DISPLAY = 6
-
 // export const metadata = genPageMetadata({ title: 'My friends and tech bloggers' })
 
 export default async function HomePage() {
   const friendsList = friends.filter((f) => f.type === 'friend');
   const bloggersList = friends.filter((f) => f.type === 'techStar');
   return (
-    // <Home
-    //   posts={allCoreContent(sortPosts(allBlogs)).slice(0, MAX_POSTS_DISPLAY)}
-    //   snippets={allCoreContent(sortPosts(allSnippets)).slice(0, MAX_SNIPPETS_DISPLAY)}
-    // />
     <Container as="div" className="pt-4 lg:pt-12">
       <PageHeader
         title="Friends"

@@ -1,18 +1,3 @@
-// export type Blog = {
-//   slug: string;
-//   date: string;
-//   title: string;
-//   summary: string;
-//   tags: string[];
-//   cover: string;
-//   readingTime: string;
-//   viewCount: number;
-//   likeCount: number;
-//   commentCount: number;
-//   icon: string;
-//   status: string;
-// };
-
 export type Project = {
   type: 'work' | 'self';
   title: string;

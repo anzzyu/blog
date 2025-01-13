@@ -1,72 +1,17 @@
 [
   {
     "type": "friend",
-    "name": "年年无忧·岁岁平安",
-    "slogan": "年年无忧·岁岁平安",
-    "imgSrc": "https://www.mengke.me/_next/image?url=%2Fstatic%2Fimages%2Ffriends%2Fantfu.png&w=384&q=100",
-    "url": "http://suisuipingan.love/home/?ref=mengke.me"
+    "name": "AA",
+    "slogan": "AA",
+    "imgSrc": "https://gips3.baidu.com/it/u=119870705,2790914505&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=720",
+    "url": "/"
   },
-  {
-    "type": "friend",
-    "name": "Kong",
-    "slogan": "当机立断，非黑即白，不要后悔",
-    "imgSrc": "https://www.mengke.me/_next/image?url=%2Fstatic%2Fimages%2Ffriends%2Fantfu.png&w=384&q=100",
-    "url": "https://kongf.github.io/?ref=mengke.me"
-  },
-  {
-    "type": "friend",
-    "name": "UoCat",
-    "slogan": "橘子糖的博客",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://uocat.com/?ref=mengke.me"
-  },
-  {
-    "type": "friend",
-    "name": "Ike の Blog",
-    "slogan": "Ike's Blog,Memo someting interesting",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://blog.ikeno.top/?ref=mengke.me"
-  },
-  {
-    "type": "friend",
-    "name": "kkjz",
-    "slogan": "因为不想随波逐流，所以总是在人生中迷失方向",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://kkjz.xyz/?ref=mengke.me"
-  },
-  {
-    "type": "friend",
-    "name": "沉舟侧畔 Blog",
-    "slogan": "沉舟侧畔，有千帆竞发。病树前头，正万木争荣。新生的力量，生机勃勃，势不可当。",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://springwood.me/?ref=mengke.me"
-  },
-  {
-    "type": "friend",
-    "name": "Chaoszhu'Blog",
-    "slogan": "好记性不如烂笔头~",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://chaoszhu.com/?ref=mengke.me"
-  },
-  {
-    "type": "friend",
-    "name": "NoOne",
-    "slogan": "NoOne，一位对技术充满热情的软件架构师",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://www.ifb.me/?ref=mengke.me"
-  },
+
   {
     "type": "techStar",
-    "name": "Anthony Fu",
-    "slogan": "Anthony Fu, a fanatical open sourceror.",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://antfu.me/?ref=mengke.me"
-  },
-  {
-    "type": "techStar",
-    "name": "Surmon",
-    "slogan": "本是浪蝶游蜂，自留半亩石池，但求直抒胸臆，挥墨九云之中",
-    "imgSrc": "https://api.horosama.com/random.php",
-    "url": "https://surmon.me/?ref=mengke.me"
+    "name": "BB",
+    "slogan": "BB",
+    "imgSrc": "https://gips3.baidu.com/it/u=119870705,2790914505&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=720",
+    "url": "/"
   }
 ]

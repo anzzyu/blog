@@ -32,7 +32,6 @@ import { useEffect, useState } from 'react';
 export default function TagPage() {
   const params = useParams();
   const { slug } = params;
-  console.log(slug);
   const [tag, setTag] = useState<Tag>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   useEffect(() => {
@@ -51,27 +50,6 @@ export default function TagPage() {
   }, [slug, tag?.id]);
   console.log(tag);
 
-  // Capitalize first letter and convert space to dash
-  // const title = '#' + tag[0] + tag.split(' ').join('-').slice(1);
-  // const filteredPosts = allCoreContent(
-  //   sortPosts(
-  //     allBlogs.filter(
-  //       (post) => post.tags && post.tags.map((t) => slug(t)).includes(tag)
-  //     )
-  //   )
-  // );
-  // const filteredSnippets = allCoreContent(
-  //   sortPosts(
-  //     allSnippets.filter(
-  //       (post) => post.tags && post.tags.map((t) => slug(t)).includes(tag)
-  //     )
-  //   )
-  // );
-  // const filteredPosts = ALL_POSTS;
-  // const filteredSnippets = ALL_SNIPPETS;
-  // if (blogs.length === 0) {
-  //   return notFound();
-  // }
   return (
     <ListLayoutWithTags
       title={`#${tag?.name}`}
@@ -82,7 +60,6 @@ export default function TagPage() {
         </>
       }
       posts={blogs}
-      snippets={blogs}
     />
   );
 }

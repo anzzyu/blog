@@ -12,9 +12,6 @@ import { TagCount } from '@/lib/type';
 import { useEffect, useState } from 'react';
 
 export default function Page() {
-  // const tagCounts = tagData as Record<string, number>;
-  // const tagKeys = Object.keys(tagCounts);
-  // const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
   const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
   useEffect(() => {
     const fetchTagCounts = async () => {

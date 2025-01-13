@@ -56,6 +56,10 @@ export async function getAllBlogs() {
   });
 }
 
+export async function getBlogsCount() {
+  return prisma.blog.count();
+}
+
 export async function addBlog(blog: Blog) {
   const checkBlog = await prisma.blog.findFirst({
     where: { slug: blog.slug },
@@ -173,6 +177,18 @@ export async function deleteBlogTags(blogId: number) {
   return prisma.blogTag.deleteMany({
     where: {
       blogId,
+    },
+  });
+}
+
+export async function getBlogByPage(pageNumber: number, pageSize: number) {
+  const skip = (pageNumber - 1) * pageSize;
+  const take = pageSize;
+  return prisma.blog.findMany({
+    skip,
+    take,
+    orderBy: {
+      id: 'desc',
     },
   });
 }

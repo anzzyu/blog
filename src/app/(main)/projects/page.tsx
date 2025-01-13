@@ -6,13 +6,6 @@ import { ProjectCard } from '@/components/project-card';
 import { PROJECTS } from '@/lib/data';
 
 export default async function Projects() {
-  // await Promise.all(
-  //   PROJECTS.map(async (p) => {
-  //     if (p.repo) {
-  //       p.repo = await fetchRepoData(p.repo as string);
-  //     }
-  //   })
-  // );
   const workProjects = PROJECTS.filter(({ type }) => type === 'work');
   const sideProjects = PROJECTS.filter(({ type }) => type === 'self');
 

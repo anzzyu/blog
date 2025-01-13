@@ -2,33 +2,23 @@
 
 import { getTagCounts } from '@/lib/action';
 import { Blog, TagCount } from '@/lib/type';
-import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import { Container } from './container';
 import { PageHeader } from './page-header';
 import { PostCardGridView } from './post-card-grid-view';
-import { SnippetCard } from './snippet';
 import { TagLink } from './tags';
 
 interface ListLayoutProps {
   title: string;
   description: React.ReactNode;
   posts: Blog[];
-  snippets: Blog[];
 }
 
 export function ListLayoutWithTags({
   title,
   description,
   posts,
-  snippets,
 }: ListLayoutProps) {
-  const hasBlogs = posts.length > 0;
-  const hasSnippets = snippets.length > 0;
-  const [view, setView] = useState<'blogs' | 'snippets'>(
-    hasBlogs ? 'blogs' : 'snippets'
-  );
-
   return (
     <Container className="pt-4 lg:pt-12">
       <PageHeader
@@ -39,50 +29,16 @@ export function ListLayoutWithTags({
       <div className="flex gap-x-12">
         <TagsList />
         <div className="py-5 md:py-10">
-          <div className="mb-6 flex items-center gap-2 text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100 md:mb-10 md:justify-end md:text-3xl">
-            {hasBlogs && (
-              <button
-                className={clsx(
-                  'underline-offset-4',
-                  view === 'blogs'
-                    ? 'underline'
-                    : 'text-gray-400 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
-                )}
-                onClick={() => setView('blogs')}
-              >
-                Blogs
-              </button>
-            )}
-            {hasBlogs && hasSnippets ? <span>/</span> : null}
-            {hasSnippets && (
-              <button
-                className={clsx(
-                  'underline-offset-4',
-                  view === 'snippets'
-                    ? 'underline'
-                    : 'text-gray-400 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
-                )}
-                onClick={() => setView('snippets')}
-              >
-                Snippets
-              </button>
-            )}
-          </div>
-          {view === 'blogs' ? (
-            <ul className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-2">
-              {posts.map((post) => (
-                <li key={post.slug}>
-                  <PostCardGridView post={post} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="space-y-10">
-              {snippets.map((snippet) => (
-                <SnippetCard snippet={snippet} key={snippet.slug} />
-              ))}
-            </div>
-          )}
+          <span className="mb-6 flex items-center gap-2 text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100 md:mb-10 md:justify-end md:text-3xl">
+            Posts
+          </span>
+          <ul className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-2">
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <PostCardGridView post={post} />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </Container>

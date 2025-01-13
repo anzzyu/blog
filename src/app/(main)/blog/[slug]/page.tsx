@@ -6,13 +6,6 @@ import { Blog } from '@/lib/type';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-// const DEFAULT_LAYOUT = 'PostLayout';
-// const LAYOUTS = {
-//   PostSimple,
-//   PostLayout,
-//   PostBanner,
-// };
-
 // export async function generateMetadata({
 //   params,
 // }: {
@@ -84,53 +77,6 @@ export default function Page() {
   if (!blog) {
     return null;
   }
-
-  // Filter out drafts in production
-  //   const sortedCoreContents = allCoreContent(sortPosts(allBlogs));
-  //   const postIndex = sortedCoreContents.findIndex((p) => p.slug === slug);
-  //   if (postIndex === -1) {
-  //     return notFound();
-  //   }
-
-  //   const prev = sortedCoreContents[postIndex + 1];
-  //   const next = sortedCoreContents[postIndex - 1];
-  //   const post = allBlogs.find((p) => p.slug === slug) as Blog;
-  //   const authorList = post?.authors || ['default'];
-  //   const authorDetails = authorList.map((author) => {
-  //     const authorResults = allAuthors.find((p) => p.slug === author);
-  //     return coreContent(authorResults as Author);
-  //   });
-  //   const mainContent = coreContent(post);
-  //   const jsonLd = post.structuredData;
-  //   jsonLd['author'] = authorDetails.map((author) => {
-  //     return {
-  //       '@type': 'Person',
-  //       name: author.name,
-  //     };
-  //   });
-
-  //   const Layout = LAYOUTS[post.layout || DEFAULT_LAYOUT];
-
-  //   return (
-  //     <>
-  //       <script
-  //         type="application/ld+json"
-  //         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-  //       />
-  //       <Layout
-  //         content={mainContent}
-  //         authorDetails={authorDetails}
-  //         next={next}
-  //         prev={prev}
-  //       >
-  //         <MDXLayoutRenderer
-  //           code={post.body.code}
-  //           components={MDX_COMPONENTS}
-  //           toc={post.toc}
-  //         />
-  //       </Layout>
-  //     </>
-  //   );
 
   return <PostLayout blog={blog as Blog} />;
 }

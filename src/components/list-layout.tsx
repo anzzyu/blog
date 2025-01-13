@@ -16,7 +16,6 @@ interface PaginationProps {
 interface ListLayoutProps {
   posts: Blog[];
   title: string;
-  // initialDisplayPosts?: CoreContent<Blog>[];
   pagination?: PaginationProps;
 }
 
@@ -85,24 +84,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   );
 }
 
-export function ListLayout({
-  posts,
-  title,
-  // initialDisplayPosts = [],
-  pagination,
-}: ListLayoutProps) {
-  // const [searchValue, setSearchValue] = useState('');
-  // const filteredBlogPosts = posts.filter((post) => {
-  //   const searchContent = post.title + post.summary + post.tags?.join(' ');
-  //   return searchContent.toLowerCase().includes(searchValue.toLowerCase());
-  // });
-
-  // If initialDisplayPosts exist, display it if no searchValue is specified
-  // const displayPosts =
-  //   initialDisplayPosts.length > 0 && !searchValue
-  //     ? initialDisplayPosts
-  //     : filteredBlogPosts;
-
+export function ListLayout({ posts, title, pagination }: ListLayoutProps) {
   return (
     <Container className="pt-4 lg:pt-12">
       <PageHeader
