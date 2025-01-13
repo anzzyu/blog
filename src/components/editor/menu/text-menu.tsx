@@ -239,6 +239,16 @@ export const TextMenu = ({ editor }: { editor: Editor }) => {
       </Popover>
       <Divider />
       <MemoImageUploader onConfirm={onUploadImage} />
+      <Divider />
+      <ToggleButton
+        onPressedChange={() => {
+          editor.chain().focus().clearNodes().unsetAllMarks().run();
+        }}
+        pressed={false}
+        tooltip="清除格式"
+      >
+        <Icon name="Eraser" />
+      </ToggleButton>
     </div>
   );
 };

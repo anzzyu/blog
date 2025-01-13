@@ -13,29 +13,7 @@ import { ScrollButtons } from './scroll-buttons';
 import { TagsList } from './tags';
 import { TableOfContents } from './toc';
 
-// interface LayoutProps {
-//   content: CoreContent<Blog>;
-//   authorDetails: CoreContent<Author>[];
-//   next?: { path: string; title: string };
-//   prev?: { path: string; title: string };
-//   children: ReactNode;
-// }
-
 export function PostLayout({ blog }: { blog: Blog }) {
-  // let {
-  //   slug,
-  //   images,
-  //   lastmod,
-  //   readingTime,
-  //   date,
-  //   title,
-  //   tags,
-  //   filePath,
-  //   toc,
-  //   type,
-  // } = content;
-  // let postUrl = `${SITE_METADATA.siteUrl}/${type.toLowerCase()}/${slug}`
-
   const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
@@ -91,9 +69,6 @@ export function PostLayout({ blog }: { blog: Blog }) {
             <div className="space-y-4 divide-y divide-gray-200 dark:divide-gray-700 lg:sticky lg:top-24">
               <BackToPosts label="Back to posts" />
               <TableOfContents content={blog.content} className="pt-4" />
-              {/* <div className="flex flex-col gap-2 pt-4">
-                <EditOnGithub filePath={filePath} />
-              </div> */}
             </div>
           </div>
         </div>

@@ -83,6 +83,21 @@ const formSchema = z.object({
   status: z.string().nonempty(),
 });
 
+function addHeadingId(content: string) {
+  const regex = /<h(\d)>(.*?)<\/h\d>/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(content))) {
+    console.log(match);
+    console.log(`#${match[2].trim()}`);
+    content = content.replace(
+      match[0],
+      `<h${match[1]} id="${match[2].trim()}">${match[2]}</h${match[1]}>
+    `
+    );
+  }
+  return content;
+}
+
 export default function EditPage() {
   const { toast } = useToast();
   const params = useParams();
@@ -136,7 +151,8 @@ export default function EditPage() {
     console.log(values);
     const { tags, ...blogData } = values;
     console.log(tags);
-
+    const newContent = addHeadingId(values.content);
+    blogData.content = newContent;
     await updateBlog({
       id: blog?.id,
       ...blogData,
