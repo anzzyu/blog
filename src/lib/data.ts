@@ -8,7 +8,7 @@ export const HEADER_NAV_LINKS = [
   { href: '/tag', title: '标签', emoji: 'label' },
   { href: '/friends', title: '友链', emoji: 'woman-and-man-holding-hands' },
   { href: '/about', title: '关于', emoji: 'smiling-face-with-sunglasses' },
-  { href: '/admin', title: '管理后台', emoji: 'smiling-face-with-sunglasses' },
+  // { href: '/admin', title: '管理后台', emoji: 'smiling-face-with-sunglasses' },
 ];
 
 export const MORE_NAV_LINKS = [
