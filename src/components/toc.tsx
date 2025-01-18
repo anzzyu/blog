@@ -76,7 +76,7 @@ export function TableOfContents({
 
   return (
     <div className={clsx('space-y-4', className)}>
-      <h3 className="text-2xl font-semibold">On this page</h3>
+      <h3 className="text-2xl font-semibold">目录</h3>
       <ul className="flex flex-col space-y-2">
         {toc.map(({ value, depth, url }) => (
           <li

@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 
 import { Blog } from '@/lib/type';
-import { formatDate } from '@/lib/utils';
+import { format } from 'date-fns';
 import { GritBackground } from './grit-background';
 import { GrowingUnderline } from './growing-underline';
 import { Image } from './image';
@@ -37,11 +37,11 @@ export function PostCardGridView({ post }: { post: Blog }) {
         </Link>
         <div className="w-full space-y-3">
           <div className="flex items-center gap-x-1.5 text-sm text-gray-600 dark:text-gray-400">
-            <time dateTime={date.toISOString()}>
-              {formatDate(date.toISOString())}
+            <time dateTime={format(date, 'yyyy-MM-dd')}>
+              {format(date, 'yyyy-MM-dd')}
             </time>
             <span className="mx-1 text-gray-400">/</span>
-            <span>{readingTime} mins read</span>
+            <span>{readingTime} 分钟读完</span>
           </div>
           <div className="group relative">
             <h3 className="text-xl font-semibold leading-6">

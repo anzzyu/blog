@@ -5,5 +5,5 @@ export function ViewCounter({
   viewCount: number;
   className?: string;
 }) {
-  return <span className={className}>{viewCount} views</span>;
+  return <span className={className}>{viewCount} 浏览</span>;
 }

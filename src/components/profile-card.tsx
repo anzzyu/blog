@@ -62,7 +62,7 @@ export function ProfileCard() {
       >
         <Image
           src="/static/images/logo.jpg"
-          alt="QingYu"
+          alt="GG Bond"
           width={550}
           height={350}
           style={{

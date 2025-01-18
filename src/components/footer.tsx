@@ -18,9 +18,7 @@ export function Footer() {
         <div className="col-span-1 space-y-4 xl:col-span-2">
           <LogoAndRepo />
           <div className="italic text-gray-500 dark:text-gray-400">
-            A personal space on the cloud where I document my programming
-            journey, sharing lessons, insights, and resources for fellow
-            developers.
+            我GG Bond的网站，欢迎来访。
           </div>
           <div className="pt-4">
             <div className="flex gap-8 md:gap-20">

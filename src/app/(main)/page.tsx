@@ -1,12 +1,10 @@
 'use client';
 
-import { BlogLinks } from '@/components/blog-links';
 import { Container } from '@/components/container';
 import { Greeting } from '@/components/greeting';
 import { Intro } from '@/components/intro';
 import { LatestPosts } from '@/components/latest-posts';
 import { ProfileCard } from '@/components/profile-card';
-import { Twemoji } from '@/components/twemoji';
 import { TypedBios } from '@/components/typed-bios';
 import { getBlogWithTagsByPage } from '@/lib/action';
 import { BlogWithTags } from '@/lib/type';
@@ -30,22 +28,17 @@ export default function Home() {
             <Intro />
             <TypedBios />
             <div className="mb-6 mt-4 md:mb-8">
+              <p>我的武器是猪猪开天宝剑、猪猪蟠龙战袍。</p>
+              <p>我的理想是夺回魔法智慧球，打败王小二，恢复地球环境。</p>
               <p>
-                I started learning to code in 2015 and have been hooked ever
-                since.
-              </p>
-              <p>I landed my first job as a Web developer in 2020.</p>
-              <p>I have a passion for JS/TS, web dev.</p>
-              <p>
-                I started this blog to document and share my knowledge &
-                experience.
+                我的身份是魔法智慧球的发明者、望子成龙小学三年级学生、实习神仙、拼装学院的班长、希望铠甲和希望号飞艇的主人、变身战队成员、五灵卫、星际特工、小虎队防御手兼主攻手等。
               </p>
             </div>
-            <BlogLinks />
-            <p className="my-6 flex md:my-8">
-              <span className="mr-2">Happy reading</span>
+            {/* <BlogLinks /> */}
+            {/* <p className="my-6 flex md:my-8">
+              <span className="mr-2">玩的开心</span>
               <Twemoji emoji="clinking-beer-mugs" />
-            </p>
+            </p> */}
           </div>
         </div>
         <div className="hidden pl-4 pt-8 xl:block">

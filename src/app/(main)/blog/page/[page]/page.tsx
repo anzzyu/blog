@@ -41,5 +41,5 @@ export default function Page() {
     totalPages: Math.ceil(count / POSTS_PER_PAGE),
   };
 
-  return <ListLayout posts={blogs} pagination={pagination} title="All posts" />;
+  return <ListLayout posts={blogs} pagination={pagination} title="所有文章" />;
 }

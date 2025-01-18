@@ -1,5 +1,5 @@
 import '@/app/css/blog-content.css';
-import { getTagsByBlogId } from '@/lib/action';
+import { getPrevAndNextBlog, getTagsByBlogId } from '@/lib/action';
 import { Blog, Tag } from '@/lib/type';
 import { useEffect, useState } from 'react';
 import { BackToPosts } from './back-to-posts';
@@ -15,17 +15,22 @@ import { TableOfContents } from './toc';
 
 export function PostLayout({ blog }: { blog: Blog }) {
   const [tags, setTags] = useState<Tag[]>([]);
+  const [prev, setPrev] = useState<Blog>();
+  const [next, setNext] = useState<Blog>();
 
   useEffect(() => {
     const fetchTags = async () => {
       const tags = await getTagsByBlogId(blog.id!);
       setTags(tags);
     };
+    const fetchPrevNext = async () => {
+      const { prev, next } = await getPrevAndNextBlog(blog.id!);
+      setPrev(prev ?? undefined);
+      setNext(next ?? undefined);
+    };
+    fetchPrevNext();
     fetchTags();
   }, [blog]);
-
-  const prev = blog;
-  const next = blog;
 
   return (
     <Container className="pt-4 lg:pt-12">
@@ -42,9 +47,6 @@ export function PostLayout({ blog }: { blog: Blog }) {
           />
           <TagsList tags={tags} />
           <PostTitle>{blog.title}</PostTitle>
-          {/* <div className="space-y-4 pt-4 md:pt-10">
-            <Banner banner={blog.cover} />
-          </div> */}
           <div className="flex items-center justify-between gap-2 pb-4 lg:pt-2">
             <BlogMeta
               date={blog.date}
@@ -67,7 +69,7 @@ export function PostLayout({ blog }: { blog: Blog }) {
           </div>
           <div className="hidden lg:col-span-4 lg:block xl:col-span-3">
             <div className="space-y-4 divide-y divide-gray-200 dark:divide-gray-700 lg:sticky lg:top-24">
-              <BackToPosts label="Back to posts" />
+              <BackToPosts label="返回" />
               <TableOfContents content={blog.content} className="pt-4" />
             </div>
           </div>
@@ -76,9 +78,9 @@ export function PostLayout({ blog }: { blog: Blog }) {
         <div className="space-y-4">
           <PostNav
             next={next}
-            nextLabel="Next post"
+            nextLabel="下一篇"
             prev={prev}
-            prevLabel="Previous post"
+            prevLabel="上一篇"
           />
           {/* <Comments slug={slug} /> */}
         </div>

@@ -7,7 +7,6 @@ import { Container } from './container';
 import { GrowingUnderline } from './growing-underline';
 import { Link } from './link';
 import { Logo } from './logo';
-import { SearchButton } from './search';
 import { ThemeSwitcher } from './theme-switcher';
 
 export function Header() {
@@ -48,7 +47,7 @@ export function Header() {
           />
           <div className="flex items-center gap-2">
             <ThemeSwitcher />
-            <SearchButton />
+            {/* <SearchButton /> */}
             {/* <MobileNav /> */}
           </div>
         </div>

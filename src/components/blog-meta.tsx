@@ -12,7 +12,7 @@ type BlogMetaProps = {
 export function BlogMeta({ date, readingTime, viewCount }: BlogMetaProps) {
   return (
     <dl>
-      <dt className="sr-only">Published on</dt>
+      <dt className="sr-only">发布于</dt>
       <dd className="flex flex-wrap items-center gap-2 text-sm font-medium leading-6 text-gray-500 dark:text-gray-400 md:gap-3 md:text-base">
         <time
           dateTime={format(date, 'yyyy-MM-dd')}
@@ -33,7 +33,7 @@ export function BlogMeta({ date, readingTime, viewCount }: BlogMetaProps) {
         <span className="text-gray-400">/</span>
         <div className="flex items-center">
           <Twemoji emoji="three-o-clock" size="base" />
-          <span className="ml-1.5 md:ml-2">{readingTime} mins read</span>
+          <span className="ml-1.5 md:ml-2">{readingTime} 分钟读完</span>
         </div>
         <span className="text-gray-400">/</span>
         <div className="flex items-center">

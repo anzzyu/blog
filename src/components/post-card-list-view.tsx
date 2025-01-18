@@ -16,16 +16,6 @@ export function PostCardListView({
   blogWithTags: BlogWithTags;
   loading?: 'lazy' | 'eager';
 }) {
-  // const [tags, setTags] = useState<Tag[]>([]);
-
-  // useEffect(() => {
-  //   const fetchTags = async () => {
-  //     const tags = await getTagsByBlogId(post.id!);
-  //     setTags(tags);
-  //   };
-  //   fetchTags();
-  // }, [post.id]);
-
   return (
     <article>
       <div className="flex flex-col gap-2 space-y-3 md:flex-row md:gap-8">
@@ -57,13 +47,13 @@ export function PostCardListView({
           <div className="space-y-4 md:space-y-6">
             <div className="space-y-3">
               <dl className="text-sm">
-                <dt className="sr-only">Published on</dt>
+                <dt className="sr-only">发布于</dt>
                 <dd className="font-medium leading-6 text-gray-500 dark:text-gray-400">
                   <time dateTime={format(blogWithTags.blog.date, 'yyyy-MM-dd')}>
                     {formatDate(format(blogWithTags.blog.date, 'yyyy-MM-dd'))}
                   </time>
                   <span className="mx-2 text-gray-400">/</span>
-                  <span>{blogWithTags.blog.readingTime} mins read</span>
+                  <span>{blogWithTags.blog.readingTime} 分钟读完</span>
                 </dd>
               </dl>
               <h2 className="pb-1 text-xl font-bold tracking-tight md:text-2xl">
@@ -92,7 +82,7 @@ export function PostCardListView({
               aria-label={`Read "${blogWithTags.blog.title}"`}
             >
               <GrowingUnderline data-umami-event="latest-post-read-more">
-                Read article →
+                开始阅读 →
               </GrowingUnderline>
             </Link>
           </div>

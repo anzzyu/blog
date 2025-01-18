@@ -1,64 +1,49 @@
-import { BriefcaseBusiness, Mail, MapPin } from 'lucide-react';
-import { Fragment } from 'react';
-import JuejinIcon from '../icons/juejin.svg';
+import { BriefcaseBusiness, MapPin } from 'lucide-react';
 import { Twemoji } from './twemoji';
 
-function getAccountHandle(url = '') {
-  const lastPart = url.split('/').pop();
-  if (lastPart) {
-    return lastPart;
-  }
-  return url;
-}
+// function getAccountHandle(url = '') {
+//   const lastPart = url.split('/').pop();
+//   if (lastPart) {
+//     return lastPart;
+//   }
+//   return url;
+// }
 
-const SOCIALS = [
-  {
-    platform: 'juejin',
-    handle: getAccountHandle('https://www.juejin.cn/'),
-    href: 'https://www.juejin.cn/',
-    Icon: () => <JuejinIcon className="h-5 w-5" />,
-    umamiEvent: 'profile-card-x',
-  },
-];
+// const SOCIALS = [
+//   {
+//     platform: 'juejin',
+//     handle: getAccountHandle('https://www.juejin.cn/'),
+//     href: 'https://www.juejin.cn/',
+//     Icon: () => <JuejinIcon className="h-5 w-5" />,
+//     umamiEvent: 'profile-card-x',
+//   },
+// ];
 
 export function ProfileCardInfo() {
   return (
     <div className="hidden py-4 md:block md:px-5">
       <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
-        QingYu
+        GG Bond
       </h3>
-      <h4 className="py-2 text-gray-500 dark:text-gray-400">
-        Learner | Builder
-      </h4>
+      <h4 className="py-2 text-gray-500 dark:text-gray-400">死猪 | 猥琐</h4>
       <div className="mb-2 mt-4 space-y-4">
         <div className="flex items-center text-gray-700 dark:text-gray-200">
           <BriefcaseBusiness strokeWidth={1.5} size={20} />
-          <p className="flex items-center px-2">
-            Front-End Engineer
-            {/* @{' '}
-            <a
-              target="_blank"
-              href={AUTHOR_INFO.work.website || '/'}
-              rel="noreferrer"
-              className="underline-offset-4 hover:underline"
-            >
-              {AUTHOR_INFO.work.company}
-            </a> */}
-          </p>
+          <p className="flex items-center px-2">魔法智慧球的发明者</p>
         </div>
         <div className="flex items-center text-gray-700 dark:text-gray-200">
           <MapPin strokeWidth={1.5} size={20} />
           <p className="px-2">
-            Peking, China
+            北京
             <span className="absolute ml-1 inline-flex pt-px">
               <Twemoji emoji="flag-china" />
             </span>
           </p>
         </div>
-        <div className="flex items-center text-gray-700 dark:text-gray-200">
+        {/* <div className="flex items-center text-gray-700 dark:text-gray-200">
           <Mail strokeWidth={1.5} size={20} />
           <a className="px-2" href={`mailto:zzyu.anan@gmail.com`}>
-            zzyu.anan@gmail.com
+            xxxx@gmail.com
           </a>
         </div>
         <div className="flex items-center gap-2.5 text-gray-700 dark:text-gray-200">
@@ -80,7 +65,7 @@ export function ProfileCardInfo() {
               )}
             </Fragment>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

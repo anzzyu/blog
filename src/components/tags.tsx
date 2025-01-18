@@ -23,7 +23,6 @@ export function TagLink({
   tag: Tag;
   size?: 'sm' | 'md';
 }) {
-  // const tagName = text.split(' ').join('-');
   return (
     <Link
       href={`/tag/${tag.slug}`}

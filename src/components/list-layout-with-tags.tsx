@@ -1,8 +1,6 @@
 'use client';
 
-import { getTagCounts } from '@/lib/action';
 import { Blog, TagCount } from '@/lib/type';
-import { useEffect, useState } from 'react';
 import { Container } from './container';
 import { PageHeader } from './page-header';
 import { PostCardGridView } from './post-card-grid-view';
@@ -12,12 +10,14 @@ interface ListLayoutProps {
   title: string;
   description: React.ReactNode;
   posts: Blog[];
+  tagCounts: TagCount[];
 }
 
 export function ListLayoutWithTags({
   title,
   description,
   posts,
+  tagCounts,
 }: ListLayoutProps) {
   return (
     <Container className="pt-4 lg:pt-12">
@@ -27,10 +27,10 @@ export function ListLayoutWithTags({
         className="border-b border-gray-200 dark:border-gray-700"
       />
       <div className="flex gap-x-12">
-        <TagsList />
+        <TagsList tagCounts={tagCounts} />
         <div className="py-5 md:py-10">
           <span className="mb-6 flex items-center gap-2 text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100 md:mb-10 md:justify-end md:text-3xl">
-            Posts
+            文章
           </span>
           <ul className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-2">
             {posts.map((post) => (
@@ -45,16 +45,7 @@ export function ListLayoutWithTags({
   );
 }
 
-function TagsList() {
-  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
-  useEffect(() => {
-    const fetchTagCounts = async () => {
-      const tagCounts = await getTagCounts();
-      setTagCounts(tagCounts);
-    };
-    fetchTagCounts();
-  }, []);
-
+function TagsList({ tagCounts }: { tagCounts: TagCount[] }) {
   return (
     <div className="hidden max-h-screen w-[300px] shrink-0 py-5 md:flex md:py-10">
       <div className="h-full overflow-auto rounded bg-gray-50 dark:bg-gray-900/70 dark:shadow-gray-800/40">

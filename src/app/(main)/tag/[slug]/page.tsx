@@ -1,8 +1,8 @@
 'use client';
 
 import { ListLayoutWithTags } from '@/components/list-layout-with-tags';
-import { getBlogsByTagId, getTagBySlug } from '@/lib/action';
-import { Blog, Tag } from '@/lib/type';
+import { getBlogsByTagSlug, getTagBySlug, getTagCounts } from '@/lib/action';
+import { Blog, Tag, TagCount } from '@/lib/type';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -34,32 +34,32 @@ export default function TagPage() {
   const { slug } = params;
   const [tag, setTag] = useState<Tag>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
+
   useEffect(() => {
-    const fetchTag = async () => {
-      const tag = await getTagBySlug(slug as string);
+    const fetchTagData = async () => {
+      const [tag, blogs, tagCounts] = await Promise.all([
+        getTagBySlug(slug as string),
+        getBlogsByTagSlug(slug as string),
+        getTagCounts(),
+      ]);
       setTag(tag as Tag);
+      setBlogs(blogs);
+      setTagCounts(tagCounts);
     };
-    const fetchBlogs = async () => {
-      if (tag?.id) {
-        const blogs = await getBlogsByTagId(tag.id);
-        setBlogs(blogs);
-      }
-    };
-    fetchTag();
-    fetchBlogs();
-  }, [slug, tag?.id]);
-  console.log(tag);
+    fetchTagData();
+  }, [slug]);
 
   return (
     <ListLayoutWithTags
       title={`#${tag?.name}`}
       description={
         <>
-          Things I&apos;ve written about{' '}
-          <span className="ml-2 font-medium">#{tag?.name}</span>
+          关于<span className="ml-2 font-medium">{tag?.name}</span>
         </>
       }
       posts={blogs}
+      tagCounts={tagCounts}
     />
   );
 }

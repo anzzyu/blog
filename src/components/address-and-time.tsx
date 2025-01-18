@@ -15,7 +15,7 @@ function getTime() {
   const hoursDiff = (visitorTimezoneOffset - MY_TIMEZONE_OFFSET) / 60;
   const diff =
     hoursDiff === 0
-      ? 'same time'
+      ? '相同时间'
       : hoursDiff > 0
         ? `${hoursDiff}h ahead`
         : `${hoursDiff * -1}h behind`;
@@ -37,7 +37,7 @@ export function AddressAndTime() {
       <div className="flex items-center gap-2">
         <Map className="h-5 w-5" />
         <span className="font-medium">
-          Peking, China, <Twemoji emoji="flag-china" className="!h-4.5" />
+          北京 <Twemoji emoji="flag-china" className="!h-4.5" />
         </span>
       </div>
       <div className="flex items-center gap-2">

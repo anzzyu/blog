@@ -3,7 +3,6 @@
 import { clsx } from 'clsx';
 import { useEffect, useRef } from 'react';
 import Typed from 'typed.js';
-import { Twemoji } from './twemoji';
 
 function createTypedInstance(el: HTMLElement) {
   return new Typed(el, {
@@ -41,36 +40,16 @@ export function TypedBios() {
       ])}
     >
       <ul id="bios" className="hidden">
-        <li>
-          I&apos;m aliased as <span className="font-medium">Xiaoke</span> at
-          work.
-        </li>
-        <li>I&apos;m a learner, builder, and freedom seeker.</li>
-        <li>
-          I live in <b className="font-medium">Peiping, China</b>.
-        </li>
-        <li>
-          I was born in the beautiful <b className="font-medium">Mount Tai</b>.
-        </li>
-        <li>
-          My first programming language I learned was{' '}
-          <b className="font-medium">Javascript</b>.
-        </li>
-        <li>I love web development.</li>
-        <li>I work mostly with JS/TS technologies.</li>
-        <li>I&apos;m Chou&apos;s husband.</li>
-        <li>
-          I&apos;m a cat-person. <Twemoji emoji="cat" />
-        </li>
-        <li>
-          I&apos;m a sport-guy. I love
-          <span className="ml-1">
-            <Twemoji emoji="soccer-ball" />,
-            <Twemoji emoji="man-swimming" />,
-            <Twemoji emoji="ping-pong" />,
-            <Twemoji emoji="volleyball" />
-          </span>
-        </li>
+        <li>我的性格是勇敢，好奇，有时候有点骄傲。</li>
+        <li>我的身高是120cm。</li>
+        <li>我的体重是30kg。</li>
+        <li>我深爱喜欢的小猪是菲菲。</li>
+        <li>我的绝技是降龙十巴掌。</li>
+        <li>我最喜欢的食物是巧克力糖，肉包子。</li>
+        <li>我最讨厌的是一本正经。</li>
+        <li>我的年龄大约3岁（当时夺取希望之光，被封印了至少3年）。</li>
+        <li>我的使命是保护地球环境。</li>
+        <li>我最常说的一句话是我就是猪猪侠。</li>
       </ul>
       <span ref={el} className="text-neutral-900 dark:text-neutral-200" />
     </div>

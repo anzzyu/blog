@@ -40,7 +40,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           >
             <GrowingUnderline className="inline-flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
-              <span>Previous</span>
+              <span>上一页</span>
             </GrowingUnderline>
           </Link>
         ) : (
@@ -50,7 +50,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           >
             <GrowingUnderline className="inline-flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
-              <span>Previous</span>
+              <span>上一页</span>
             </GrowingUnderline>
           </button>
         )}
@@ -64,7 +64,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
             rel="next"
           >
             <GrowingUnderline className="inline-flex items-center gap-2">
-              <span>Next</span>
+              <span>下一页</span>
               <ArrowRight className="h-4 w-4" />
             </GrowingUnderline>
           </Link>
@@ -74,7 +74,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
             disabled={!nextPage}
           >
             <GrowingUnderline className="inline-flex items-center gap-2">
-              <span>Next</span>
+              <span>下一页</span>
               <ArrowRight className="h-4 w-4" />
             </GrowingUnderline>
           </button>
@@ -89,7 +89,7 @@ export function ListLayout({ posts, title, pagination }: ListLayoutProps) {
     <Container className="pt-4 lg:pt-12">
       <PageHeader
         title={title}
-        description="I like to write about stuff I'm into. You'll find a mix of web dev articles, tech news, and random thoughts from my life. Use the search below to filter by title."
+        description="就是闲的没事瞎写点东西。"
         className="border-b border-gray-200 dark:border-gray-700"
       >
         {/* <SearchArticles label="Search articles" onChange={(e) => setSearchValue(e.target.value)} /> */}

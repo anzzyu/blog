@@ -4,27 +4,39 @@ import { Twemoji } from './twemoji';
 
 const LINKS = [
   {
-    title: `What have I built?`,
-    href: `/projects`,
-    emoji: 'man-technologist',
-    event: 'home-link-projects',
-  },
-  {
-    title: `My writings`,
+    title: `胡言乱语`,
     href: `/blog`,
     emoji: 'memo',
     event: 'home-link-blog',
   },
   {
-    title: `Snippets collection`,
-    href: `/snippets`,
-    emoji: 'dna',
-    event: 'home-link-snippets',
+    title: `瞎打标签`,
+    href: `/tag`,
+    emoji: 'label',
+    event: 'home-link-tag',
   },
   {
-    title: `About me & this blog`,
+    title: `猪生艰难`,
     href: `/about`,
-    emoji: 'smiling-face-with-sunglasses',
+    emoji: 'pig-face',
+    event: 'home-link-about',
+  },
+  {
+    title: `猪生艰难1`,
+    href: `/about`,
+    emoji: 'pig-face',
+    event: 'home-link-about',
+  },
+  {
+    title: `猪生艰难2`,
+    href: `/about`,
+    emoji: 'pig-face',
+    event: 'home-link-about',
+  },
+  {
+    title: `猪生艰难3`,
+    href: `/about`,
+    emoji: 'pig-face',
     event: 'home-link-about',
   },
 ];

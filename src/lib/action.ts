@@ -48,6 +48,33 @@ export async function getBlogBySlug(slug: string) {
   });
 }
 
+export async function getPrevAndNextBlog(id: number) {
+  const prev = await prisma.blog.findFirst({
+    where: {
+      id: {
+        lt: id,
+      },
+    },
+    orderBy: {
+      id: 'desc',
+    },
+  });
+  const next = await prisma.blog.findFirst({
+    where: {
+      id: {
+        gt: id,
+      },
+    },
+    orderBy: {
+      id: 'asc',
+    },
+  });
+  return {
+    prev,
+    next,
+  };
+}
+
 export async function getAllBlogs() {
   return prisma.blog.findMany({
     orderBy: {
@@ -171,6 +198,11 @@ export async function getBlogsByTagId(tagId: number) {
       },
     },
   });
+}
+
+export async function getBlogsByTagSlug(tagSlug: string) {
+  const tag = await getTagBySlug(tagSlug);
+  return getBlogsByTagId(tag!.id!);
 }
 
 export async function deleteBlogTags(blogId: number) {
