@@ -1,5 +1,11 @@
+'use client';
+
 import '@/app/css/blog-content.css';
-import { getPrevAndNextBlog, getTagsByBlogId } from '@/lib/action';
+import {
+  getBlogBySlug,
+  getPrevAndNextBlogBySlug,
+  getTagsByBlogSlug,
+} from '@/lib/action';
 import { Blog, Tag } from '@/lib/type';
 import { useEffect, useState } from 'react';
 import { BackToPosts } from './back-to-posts';
@@ -13,24 +19,30 @@ import { ScrollButtons } from './scroll-buttons';
 import { TagsList } from './tags';
 import { TableOfContents } from './toc';
 
-export function PostLayout({ blog }: { blog: Blog }) {
+export function PostLayout({ slug }: { slug: string }) {
+  const [blog, setBlog] = useState<Blog>();
   const [tags, setTags] = useState<Tag[]>([]);
   const [prev, setPrev] = useState<Blog>();
   const [next, setNext] = useState<Blog>();
 
   useEffect(() => {
-    const fetchTags = async () => {
-      const tags = await getTagsByBlogId(blog.id!);
+    const fetchBlogData = async () => {
+      const [blog, tags, { prev, next }] = await Promise.all([
+        getBlogBySlug(slug as string),
+        getTagsByBlogSlug(slug),
+        getPrevAndNextBlogBySlug(slug),
+      ]);
+      setBlog(blog as Blog);
       setTags(tags);
-    };
-    const fetchPrevNext = async () => {
-      const { prev, next } = await getPrevAndNextBlog(blog.id!);
       setPrev(prev ?? undefined);
       setNext(next ?? undefined);
     };
-    fetchPrevNext();
-    fetchTags();
-  }, [blog]);
+    fetchBlogData();
+  }, [slug]);
+
+  if (!blog) {
+    return null;
+  }
 
   return (
     <Container className="pt-4 lg:pt-12">

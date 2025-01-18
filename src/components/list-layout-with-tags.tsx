@@ -1,29 +1,45 @@
 'use client';
 
-import { Blog, TagCount } from '@/lib/type';
+import { getBlogsByTagSlug, getTagBySlug, getTagCounts } from '@/lib/action';
+import { Blog, Tag, TagCount } from '@/lib/type';
+import { useEffect, useState } from 'react';
 import { Container } from './container';
 import { PageHeader } from './page-header';
 import { PostCardGridView } from './post-card-grid-view';
 import { TagLink } from './tags';
 
-interface ListLayoutProps {
-  title: string;
-  description: React.ReactNode;
-  posts: Blog[];
-  tagCounts: TagCount[];
-}
+export function ListLayoutWithTags({ slug }: { slug: string }) {
+  const [tag, setTag] = useState<Tag>();
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
 
-export function ListLayoutWithTags({
-  title,
-  description,
-  posts,
-  tagCounts,
-}: ListLayoutProps) {
+  useEffect(() => {
+    const fetchTagData = async () => {
+      const [tag, blogs, tagCounts] = await Promise.all([
+        getTagBySlug(slug),
+        getBlogsByTagSlug(slug),
+        getTagCounts(),
+      ]);
+      setTag(tag as Tag);
+      setBlogs(blogs);
+      setTagCounts(tagCounts);
+    };
+    fetchTagData();
+  }, [slug]);
+
+  if (!tag) {
+    return null;
+  }
+
   return (
     <Container className="pt-4 lg:pt-12">
       <PageHeader
-        title={title}
-        description={description}
+        title={'#' + tag.name}
+        description={
+          <>
+            关于<span className="ml-2 font-medium">{tag.name}</span>
+          </>
+        }
         className="border-b border-gray-200 dark:border-gray-700"
       />
       <div className="flex gap-x-12">
@@ -33,9 +49,9 @@ export function ListLayoutWithTags({
             文章
           </span>
           <ul className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-2">
-            {posts.map((post) => (
-              <li key={post.slug}>
-                <PostCardGridView post={post} />
+            {blogs.map((blog) => (
+              <li key={blog.slug}>
+                <PostCardGridView post={blog} />
               </li>
             ))}
           </ul>

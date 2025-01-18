@@ -1,30 +1,12 @@
-'use client';
-
-// export const metadata = genPageMetadata({
-//   title: 'Tags',
-//   description: 'Things I blog about',
-// });
-
 import { Container } from '@/components/container';
-import { TagLink } from '@/components/tags';
-import { getTagCounts } from '@/lib/action';
-import { TagCount } from '@/lib/type';
-import { useEffect, useState } from 'react';
+import TagCountList from '@/components/tag-count';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '标签',
+};
 
 export default function Page() {
-  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
-  useEffect(() => {
-    const fetchTagCounts = async () => {
-      const tagCounts = await getTagCounts();
-      setTagCounts(tagCounts);
-    };
-    fetchTagCounts();
-  }, []);
-
-  if (!tagCounts) {
-    return null;
-  }
-
   return (
     <Container className="pt-4 md:pt-0">
       <div className="flex flex-col items-start justify-start divide-y divide-gray-200 dark:divide-gray-700 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0">
@@ -33,19 +15,7 @@ export default function Page() {
             标签
           </h1>
         </div>
-        <div className="my-8 flex flex-wrap gap-x-5 gap-y-2 py-8 md:my-0 md:py-8">
-          {tagCounts.length === 0 && 'No tags found.'}
-          {tagCounts.map((t) => {
-            return (
-              <div key={t.slug} className="flex items-center gap-0.5">
-                <TagLink tag={t} size="md" />
-                <span className="text-gray-600 dark:text-gray-300">
-                  ({t.count})
-                </span>
-              </div>
-            );
-          })}
-        </div>
+        <TagCountList />
       </div>
     </Container>
   );

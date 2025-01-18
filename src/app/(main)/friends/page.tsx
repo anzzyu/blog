@@ -2,8 +2,11 @@ import { Container } from '@/components/container';
 import { FriendsList } from '@/components/friends-list';
 import { PageHeader } from '@/components/page-header';
 import friends from '@/lib/friends.json' assert { type: 'json' };
+import { Metadata } from 'next';
 
-// export const metadata = genPageMetadata({ title: 'My friends and tech bloggers' })
+export const metadata: Metadata = {
+  title: '友链',
+};
 
 export default async function HomePage() {
   const friendsList = friends.filter((f) => f.type === 'friend');

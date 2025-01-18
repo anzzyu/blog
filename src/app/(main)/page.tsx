@@ -1,24 +1,16 @@
-'use client';
-
 import { Container } from '@/components/container';
 import { Greeting } from '@/components/greeting';
 import { Intro } from '@/components/intro';
 import { LatestPosts } from '@/components/latest-posts';
 import { ProfileCard } from '@/components/profile-card';
 import { TypedBios } from '@/components/typed-bios';
-import { getBlogWithTagsByPage } from '@/lib/action';
-import { BlogWithTags } from '@/lib/type';
-import { useEffect, useState } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '首页',
+};
 
 export default function Home() {
-  const [blogWithTagsList, setBlogWithTagsList] = useState<BlogWithTags[]>([]);
-  useEffect(() => {
-    const fetchBlogWithTags = async () => {
-      const blogWithTagsList = await getBlogWithTagsByPage(1, 5);
-      setBlogWithTagsList(blogWithTagsList);
-    };
-    fetchBlogWithTags();
-  }, []);
   return (
     <Container as="div" className="pt-4 lg:pt-12">
       <div className="py-6 md:pb-8 xl:grid xl:grid-cols-3">
@@ -45,7 +37,7 @@ export default function Home() {
           <ProfileCard />
         </div>
       </div>
-      <LatestPosts blogWithTagsList={blogWithTagsList} />
+      <LatestPosts />
     </Container>
   );
 }

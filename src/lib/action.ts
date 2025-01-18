@@ -75,6 +75,11 @@ export async function getPrevAndNextBlog(id: number) {
   };
 }
 
+export async function getPrevAndNextBlogBySlug(slug: string) {
+  const blog = await getBlogBySlug(slug);
+  return getPrevAndNextBlog(blog!.id!);
+}
+
 export async function getAllBlogs() {
   return prisma.blog.findMany({
     orderBy: {
@@ -156,6 +161,11 @@ export async function getTagsByBlogId(blogId: number) {
       },
     },
   });
+}
+
+export async function getTagsByBlogSlug(blogSlug: string) {
+  const blog = await getBlogBySlug(blogSlug);
+  return getTagsByBlogId(blog!.id!);
 }
 
 export async function getTagCounts() {

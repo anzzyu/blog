@@ -1,8 +1,11 @@
 'use client';
 
+import { getBlogByPage, getBlogsCount } from '@/lib/action';
+import { POSTS_PER_PAGE } from '@/lib/data';
 import { Blog } from '@/lib/type';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Container } from './container';
 import { GrowingUnderline } from './growing-underline';
 import { Link } from './link';
@@ -12,11 +15,6 @@ import { PostCardGridView } from './post-card-grid-view';
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
-}
-interface ListLayoutProps {
-  posts: Blog[];
-  title: string;
-  pagination?: PaginationProps;
 }
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
@@ -84,21 +82,40 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   );
 }
 
-export function ListLayout({ posts, title, pagination }: ListLayoutProps) {
+export function ListLayout({ pageNumber }: { pageNumber: number }) {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const [blogs, count] = await Promise.all([
+        getBlogByPage(pageNumber, POSTS_PER_PAGE),
+        getBlogsCount(),
+      ]);
+      setBlogs(blogs);
+      setCount(count);
+    };
+    fetch();
+  }, [pageNumber]);
+
+  const pagination = {
+    currentPage: pageNumber,
+    totalPages: Math.ceil(count / POSTS_PER_PAGE),
+  };
   return (
     <Container className="pt-4 lg:pt-12">
       <PageHeader
-        title={title}
+        title="全部文章"
         description="就是闲的没事瞎写点东西。"
         className="border-b border-gray-200 dark:border-gray-700"
       >
         {/* <SearchArticles label="Search articles" onChange={(e) => setSearchValue(e.target.value)} /> */}
       </PageHeader>
-      {!posts.length ? (
+      {!blogs.length ? (
         <div className="py-10">No posts found.</div>
       ) : (
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 py-10 md:gap-y-16 lg:grid-cols-2 xl:grid-cols-3">
-          {posts.map((post) => (
+          {blogs.map((post) => (
             <PostCardGridView key={post.slug} post={post} />
           ))}
         </div>

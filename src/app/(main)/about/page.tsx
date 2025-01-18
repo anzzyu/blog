@@ -1,8 +1,11 @@
-// export const metadata = genPageMetadata({ title: 'About' })
-
 import { Container } from '@/components/container';
 import { PageHeader } from '@/components/page-header';
 import { ProfileCard } from '@/components/profile-card';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '关于',
+};
 
 export default function AboutPage() {
   return (

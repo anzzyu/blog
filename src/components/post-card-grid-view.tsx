@@ -45,7 +45,7 @@ export function PostCardGridView({ post }: { post: Blog }) {
           </div>
           <div className="group relative">
             <h3 className="text-xl font-semibold leading-6">
-              <Link href={`/${slug}`}>
+              <Link href={`/blog/${slug}`}>
                 <GrowingUnderline>{title}</GrowingUnderline>
               </Link>
             </h3>
