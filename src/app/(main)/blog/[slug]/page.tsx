@@ -4,7 +4,7 @@ import { getBlogBySlug } from '@/lib/action';
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
@@ -13,7 +13,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   return <PostLayout slug={slug} />;

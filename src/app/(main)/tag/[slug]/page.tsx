@@ -4,7 +4,7 @@ import { getTagBySlug } from '@/lib/action';
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
   const tag = await getTagBySlug(slug);
@@ -16,7 +16,7 @@ export async function generateMetadata({
 export default async function TagPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
