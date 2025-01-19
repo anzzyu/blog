@@ -149,6 +149,7 @@ export default function EditPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // console.log(values);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { tags, ...blogData } = values;
     // console.log(tags);
     const newContent = addHeadingId(values.content);

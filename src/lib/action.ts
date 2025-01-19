@@ -107,6 +107,7 @@ export async function addBlog(blog: Blog) {
 }
 
 export async function updateBlog(blog: Blog) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id, ...data } = blog;
   // console.log(id);
   return prisma.blog.update({
