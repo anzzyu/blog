@@ -70,7 +70,7 @@ export function TableOfContents({
   className?: string;
 }) {
   const toc: TocItem[] = generateToc(content);
-  console.log(toc);
+  // console.log(toc);
   const ids = toc.map((item) => item.url);
   const activeId = useActiveTocItem(ids);
 

@@ -87,8 +87,8 @@ function addHeadingId(content: string) {
   const regex = /<h(\d)>(.*?)<\/h\d>/g;
   let match: RegExpExecArray | null;
   while ((match = regex.exec(content))) {
-    console.log(match);
-    console.log(`#${match[2].trim()}`);
+    // console.log(match);
+    // console.log(`#${match[2].trim()}`);
     content = content.replace(
       match[0],
       `<h${match[1]} id="${match[2].trim()}">${match[2]}</h${match[1]}>
@@ -148,9 +148,9 @@ export default function EditPage() {
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // console.log(values);
     const { tags, ...blogData } = values;
-    console.log(tags);
+    // console.log(tags);
     const newContent = addHeadingId(values.content);
     blogData.content = newContent;
     await updateBlog({

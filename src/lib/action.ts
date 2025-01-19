@@ -108,7 +108,7 @@ export async function addBlog(blog: Blog) {
 
 export async function updateBlog(blog: Blog) {
   const { id, ...data } = blog;
-  console.log(id);
+  // console.log(id);
   return prisma.blog.update({
     where: {
       id: blog.id,

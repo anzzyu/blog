@@ -66,7 +66,7 @@ export default function EditPage() {
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // console.log(values);
     updateTag({
       id: tag?.id as number,
       ...values,
