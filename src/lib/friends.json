@@ -3,7 +3,7 @@
     "type": "friend",
     "name": "AA",
     "slogan": "AA",
-    "imgSrc": "https://gips3.baidu.com/it/u=119870705,2790914505&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=720",
+    "imgSrc": "http://39.103.58.152:5244/d/oss/zzx.jpeg",
     "url": "/"
   },
 
@@ -11,7 +11,7 @@
     "type": "techStar",
     "name": "BB",
     "slogan": "BB",
-    "imgSrc": "https://gips3.baidu.com/it/u=119870705,2790914505&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=720",
+    "imgSrc": "http://39.103.58.152:5244/d/oss/zzx.jpeg",
     "url": "/"
   }
 ]

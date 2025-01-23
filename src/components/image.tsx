@@ -1,35 +1,39 @@
-'use client'
+'use client';
 
-import { clsx } from 'clsx'
-import type { ImageProps as NextImageProps } from 'next/image'
-import NextImage from 'next/image'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
-import ReactMediumImageZoom, { type UncontrolledProps } from 'react-medium-image-zoom'
+import { clsx } from 'clsx';
+import type { ImageProps as NextImageProps } from 'next/image';
+import NextImage from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import ReactMediumImageZoom, {
+  type UncontrolledProps,
+} from 'react-medium-image-zoom';
 
-const loadedImages: string[] = []
+const loadedImages: string[] = [];
 
 function useImageLoadedState(src: string) {
-  const pathname = usePathname()
-  const uniqueImagePath = pathname + '__' + src
-  const [loaded, setLoaded] = useState(() => loadedImages.includes(uniqueImagePath))
+  const pathname = usePathname();
+  const uniqueImagePath = pathname + '__' + src;
+  const [loaded, setLoaded] = useState(() =>
+    loadedImages.includes(uniqueImagePath)
+  );
   return [
     loaded,
     () => {
-      if (loaded) return
-      loadedImages.push(uniqueImagePath)
-      setLoaded(true)
+      if (loaded) return;
+      loadedImages.push(uniqueImagePath);
+      setLoaded(true);
     },
-  ] as const
+  ] as const;
 }
 
 export interface ImageProps extends Omit<NextImageProps, 'src' | 'priority'> {
-  src: string
+  src: string;
 }
 
 export function Image(props: ImageProps) {
-  const { alt, src, loading = 'lazy', style, className, ...rest } = props
-  const [loaded, onLoad] = useImageLoadedState(src)
+  const { alt, src, loading = 'lazy', style, className, ...rest } = props;
+  const [loaded, onLoad] = useImageLoadedState(src);
 
   return (
     <div
@@ -55,15 +59,15 @@ export function Image(props: ImageProps) {
         {...rest}
       />
     </div>
-  )
+  );
 }
 
 interface ZoomProps extends UncontrolledProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function Zoom(props: ZoomProps) {
-  const { children, classDialog, ...rest } = props
+  const { children, classDialog, ...rest } = props;
   return (
     <ReactMediumImageZoom
       zoomMargin={20}
@@ -77,5 +81,5 @@ export function Zoom(props: ZoomProps) {
     >
       {children}
     </ReactMediumImageZoom>
-  )
+  );
 }

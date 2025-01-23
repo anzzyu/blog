@@ -90,6 +90,19 @@ const formSchema = z.object({
 //   return content;
 // }
 
+// function addImageZoom(content: string) {
+//   const regex = /<img.*?src="(.+?)".*?>/g;
+//   let match: RegExpExecArray | null;
+//   while ((match = regex.exec(content))) {
+//     console.log(match);
+//     content = content.replace(
+//       match[0],
+//       `<Zoom><Image src="${match[1]}" alt="image" width={1600} height={900} className="h-[400px] w-full rounded-lg" /></Zoom>`
+//     );
+//   }
+//   return content;
+// }
+
 export default function CreatePage() {
   const { toast } = useToast();
 
@@ -127,7 +140,7 @@ export default function CreatePage() {
     const { tags, ...blogData } = values;
     // console.log(tags);
     // const newContent = addHeadingId(values.content);
-    // blogData.content = newContent;
+    // blogData.content = addImageZoom(newContent);
     const blog = await addBlog(blogData);
     if (blog === 'error') {
       return;

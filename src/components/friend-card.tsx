@@ -3,7 +3,7 @@
 import { Friend } from '@/lib/type';
 import { GradientBorder } from './gradient-border';
 import { GrowingUnderline } from './growing-underline';
-import { Image } from './image';
+import { Image, Zoom } from './image';
 import { Link } from './link';
 import { TiltedGridBackground } from './tilted-grid-background';
 
@@ -15,19 +15,19 @@ export function FriendCard({ friend }: { friend: Friend }) {
       <TiltedGridBackground className="inset-0 z-[-1]" />
       <div className="flex gap-5 md:gap-5">
         <div className="m-4 flex shrink-0 items-end">
-          {/* <Zoom
+          <Zoom
             zoomImg={{ src: imgSrc, alt: name }}
             canSwipeToUnzoom={false} // Not working
             zoomMargin={20}
-          > */}
-          <Image
-            src={imgSrc}
-            alt={name}
-            width={300}
-            height={450}
-            className="h-24 w-24 rounded-lg shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] md:h-36 md:w-36"
-          />
-          {/* </Zoom> */}
+          >
+            <Image
+              src={imgSrc}
+              alt={name}
+              width={300}
+              height={450}
+              className="h-24 w-24 rounded-lg shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] md:h-36 md:w-36"
+            />
+          </Zoom>
         </div>
         <div className="relative flex grow flex-col gap-1 overflow-hidden pb-4 pr-2 pt-2 md:pr-4">
           <div className="flex items-start justify-between gap-3 text-xl font-semibold md:text-2xl">

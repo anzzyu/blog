@@ -7,6 +7,7 @@ import '@/app/css/twemoji.css';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ThemeProvider } from '@/components/theme-provider';
+import 'react-medium-image-zoom/dist/styles.css';
 
 const FONT_ZCOOL_KUAILE = ZCOOL_KuaiLe({
   subsets: ['latin'],

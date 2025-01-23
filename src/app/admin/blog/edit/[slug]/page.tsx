@@ -83,20 +83,33 @@ const formSchema = z.object({
   status: z.string().nonempty(),
 });
 
-function addHeadingId(content: string) {
-  const regex = /<h(\d)>(.*?)<\/h\d>/g;
-  let match: RegExpExecArray | null;
-  while ((match = regex.exec(content))) {
-    // console.log(match);
-    // console.log(`#${match[2].trim()}`);
-    content = content.replace(
-      match[0],
-      `<h${match[1]} id="${match[2].trim()}">${match[2]}</h${match[1]}>
-    `
-    );
-  }
-  return content;
-}
+// function addHeadingId(content: string) {
+//   const regex = /<h(\d)>(.*?)<\/h\d>/g;
+//   let match: RegExpExecArray | null;
+//   while ((match = regex.exec(content))) {
+//     // console.log(match);
+//     // console.log(`#${match[2].trim()}`);
+//     content = content.replace(
+//       match[0],
+//       `<h${match[1]} id="${match[2].trim()}">${match[2]}</h${match[1]}>
+//     `
+//     );
+//   }
+//   return content;
+// }
+
+// function addImageZoom(content: string) {
+//   const regex = /<img.*?src="(.+?)".*?>/g;
+//   let match: RegExpExecArray | null;
+//   while ((match = regex.exec(content))) {
+//     console.log(match);
+//     content = content.replace(
+//       match[0],
+//       `<Zoom><Image src="${match[1]}" alt="image" width={1600} height={900} className="h-[400px] w-full rounded-lg" /></Zoom>`
+//     );
+//   }
+//   return content;
+// }
 
 export default function EditPage() {
   const { toast } = useToast();
@@ -152,8 +165,8 @@ export default function EditPage() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { tags, ...blogData } = values;
     // console.log(tags);
-    const newContent = addHeadingId(values.content);
-    blogData.content = newContent;
+    // const newContent = addHeadingId(values.content);
+    // blogData.content = addImageZoom(newContent);
     await updateBlog({
       id: blog?.id,
       ...blogData,
