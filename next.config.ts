@@ -12,7 +12,14 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    domains: ['gips3.baidu.com'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '39.103.58.152',
+        port: '5244',
+        pathname: '**',
+      },
+    ],
   },
   webpack: (config) => {
     config.module.rules.push({

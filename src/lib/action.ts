@@ -40,6 +40,22 @@ export async function deleteTag(id: number) {
   });
 }
 
+export async function deleteTagBySlug(slug: string) {
+  const tag = await prisma.tag.findFirst({
+    where: { slug },
+  });
+  deleteTag(tag!.id!);
+  deleteBlogTagsByTagId(tag!.id!);
+}
+
+export async function deleteBlogTagsByTagId(tagId: number) {
+  return prisma.blogTag.deleteMany({
+    where: {
+      tagId,
+    },
+  });
+}
+
 export async function getBlogBySlug(slug: string) {
   return prisma.blog.findFirst({
     where: {
@@ -124,6 +140,12 @@ export async function deleteBlog(id: number) {
       id,
     },
   });
+}
+
+export async function deleteBlogBySlug(slug: string) {
+  const blog = await getBlogBySlug(slug);
+  deleteBlog(blog!.id!);
+  deleteBlogTags(blog!.id!);
 }
 
 export async function addBlogTag(blogId: number, tagId: number) {

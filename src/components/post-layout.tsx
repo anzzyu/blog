@@ -19,11 +19,27 @@ import { ScrollButtons } from './scroll-buttons';
 import { TagsList } from './tags';
 import { TableOfContents } from './toc';
 
+function addHeadingId(content: string) {
+  const regex = /<h(\d)>(.*?)<\/h\d>/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(content))) {
+    // console.log(match);
+    // console.log(`#${match[2].trim()}`);
+    content = content.replace(
+      match[0],
+      `<h${match[1]} id="${match[2].trim()}">${match[2]}</h${match[1]}>
+    `
+    );
+  }
+  return content;
+}
+
 export function PostLayout({ slug }: { slug: string }) {
   const [blog, setBlog] = useState<Blog>();
   const [tags, setTags] = useState<Tag[]>([]);
   const [prev, setPrev] = useState<Blog>();
   const [next, setNext] = useState<Blog>();
+  const [content, setContent] = useState<string>('');
 
   useEffect(() => {
     const fetchBlogData = async () => {
@@ -32,6 +48,7 @@ export function PostLayout({ slug }: { slug: string }) {
         getTagsByBlogSlug(slug),
         getPrevAndNextBlogBySlug(slug),
       ]);
+      setContent(addHeadingId(blog?.content ?? ''));
       setBlog(blog as Blog);
       setTags(tags);
       setPrev(prev ?? undefined);
@@ -75,14 +92,14 @@ export function PostLayout({ slug }: { slug: string }) {
             <div className="prose dark:prose-invert lg:prose-lg max-w-none lg:pb-8">
               <div
                 className="blog-content"
-                dangerouslySetInnerHTML={{ __html: blog.content }}
+                dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
           </div>
           <div className="hidden lg:col-span-4 lg:block xl:col-span-3">
             <div className="space-y-4 divide-y divide-gray-200 dark:divide-gray-700 lg:sticky lg:top-24">
               <BackToPosts label="返回" />
-              <TableOfContents content={blog.content} className="pt-4" />
+              <TableOfContents content={content} className="pt-4" />
             </div>
           </div>
         </div>

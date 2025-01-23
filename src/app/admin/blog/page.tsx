@@ -21,12 +21,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getAllBlogs } from '@/lib/action';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
+import { deleteBlogBySlug, getAllBlogs } from '@/lib/action';
 import { Blog } from '@/lib/type';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 export default function BlogPage() {
+  const { toast } = useToast();
+
   const [blogs, setBlogs] = useState<Blog[]>([]);
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -35,6 +39,14 @@ export default function BlogPage() {
     };
     fetchBlogs();
   }, []);
+
+  async function handleDelete(slug: string) {
+    // console.log('delete', slug);
+    await deleteBlogBySlug(slug);
+    toast({
+      description: '文章删除成功！',
+    });
+  }
 
   return (
     <div>
@@ -104,18 +116,19 @@ export default function BlogPage() {
                   >
                     编辑
                   </Link>
-                  <Link
+                  <Button
                     className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-200"
-                    href={`/admin/blog/delete/${blog.slug}`}
+                    onClick={() => handleDelete(blog.slug)}
                   >
                     删除
-                  </Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+      <Toaster />
     </div>
   );
 }

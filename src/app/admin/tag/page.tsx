@@ -20,11 +20,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getAllTags } from '@/lib/action';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
+import { deleteTagBySlug, getAllTags } from '@/lib/action';
 import { Tag } from '@/lib/type';
 import { useEffect, useState } from 'react';
 
 export default function TagPage() {
+  const { toast } = useToast();
+
   const [tags, setTags] = useState<Tag[]>([]);
   useEffect(() => {
     const fetchTags = async () => {
@@ -33,6 +37,14 @@ export default function TagPage() {
     };
     fetchTags();
   }, []);
+
+  async function handleDelete(slug: string) {
+    // console.log('delete', slug);
+    await deleteTagBySlug(slug);
+    toast({
+      description: '标签删除成功！',
+    });
+  }
 
   return (
     <div>
@@ -84,18 +96,19 @@ export default function TagPage() {
                   >
                     编辑
                   </Link>
-                  <Link
+                  <Button
                     className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-gray-200"
-                    href={`/admin/tag/delete/${tag.slug}`}
+                    onClick={() => handleDelete(tag.slug)}
                   >
                     删除
-                  </Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+      <Toaster />
     </div>
   );
 }
