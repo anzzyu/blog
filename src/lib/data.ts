@@ -18,7 +18,7 @@ export const MORE_NAV_LINKS = [
 
 export const FOOTER_NAV_LINKS = [
   { href: '/blog', title: '文章' },
-  { href: '/tags', title: '标签' },
+  { href: '/tag', title: '标签' },
   { href: '/friends', title: '友链' },
   { href: '/about', title: '关于' },
 ];

@@ -14,8 +14,8 @@ export default async function HomePage() {
   return (
     <Container as="div" className="pt-4 lg:pt-12">
       <PageHeader
-        title="朋友们"
-        description="一些有趣的人。"
+        title="猪猪们"
+        description="一些有趣的猪。"
         className="border-b border-gray-200 dark:border-gray-700"
       />
       <div className="py-5 md:py-10">

@@ -7,15 +7,15 @@ html {
 }
 
 .blog-content blockquote {
-  @apply my-4 border-l-2 border-gray-300 pl-4;
+  @apply my-6 border-l-2 border-gray-300 pl-6;
 }
 
 .blog-content pre {
-  @apply my-4 rounded-md bg-gray-600 p-4 text-white;
+  @apply my-6 rounded-md bg-gray-600 p-6 text-white;
 }
 
 .blog-content pre code {
-  @apply my-1 rounded-md bg-gray-600 p-1 text-white;
+  @apply my-2 rounded-md bg-gray-600 p-2 text-white;
 }
 
 .blog-content h1,
@@ -24,7 +24,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply my-4 font-bold leading-tight;
+  @apply my-6 font-bold leading-tight;
 }
 
 .blog-content h1 {
@@ -46,12 +46,12 @@ h6 {
 }
 
 .blog-content hr {
-  @apply my-6 border-t border-gray-300;
+  @apply my-8 border-t border-gray-300;
 }
 
 .blog-content ul,
 ol {
-  @apply mx-4 mb-4 mt-4;
+  @apply mx-6 mb-6 mt-6;
 }
 
 .blog-content ul {
@@ -59,11 +59,11 @@ ol {
 }
 
 .blog-content ul ul {
-  @apply m-0 ml-5 list-[circle];
+  @apply m-0 ml-6 list-[circle];
 }
 
 .blog-content ul ul ul {
-  @apply m-0 ml-5 list-[square];
+  @apply m-0 ml-6 list-[square];
 }
 
 .blog-content ol {
@@ -71,7 +71,7 @@ ol {
 }
 
 .blog-content ol ol {
-  @apply m-0 ml-5;
+  @apply m-0 ml-6;
 }
 
 .blog-content ul p,
@@ -80,11 +80,11 @@ ol p {
 }
 
 .blog-content code {
-  @apply mx-1 my-1 rounded-md bg-gray-600 px-1 text-sm text-white;
+  @apply mx-2 my-2 rounded-md bg-gray-600 px-2 text-sm text-white;
 }
 
 .blog-content p {
-  @apply my-2;
+  @apply my-4;
 }
 
 .blog-content ul[data-type='taskList'] {
@@ -124,7 +124,7 @@ ol p {
 }
 
 .blog-content table th {
-  @apply relative min-w-4 border border-gray-300 bg-gray-100 px-2 py-1 align-top font-bold;
+  @apply relative min-w-4 border border-gray-300 bg-gray-100 px-4 py-2 align-top font-bold;
 }
 
 .blog-content table th * {
@@ -132,7 +132,7 @@ ol p {
 }
 
 .blog-content table td {
-  @apply relative min-w-4 border border-gray-300 px-2 py-1 align-top;
+  @apply relative min-w-4 border border-gray-300 px-4 py-2 align-top;
 }
 
 .blog-content table td * {
@@ -154,5 +154,5 @@ ol p {
 }
 
 .blog-content img {
-  @apply mx-auto my-4;
+  @apply mx-auto my-6;
 }

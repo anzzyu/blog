@@ -1,16 +1,18 @@
 [
   {
     "type": "friend",
-    "name": "AA",
-    "slogan": "AA",
+    "name": "GG Bond",
+    "slogan": "A brave and adventurous pig",
+    "description": "A brave and adventurous pig",
     "imgSrc": "http://39.103.58.152:5244/d/oss/zzx.jpeg",
     "url": "/"
   },
 
   {
     "type": "techStar",
-    "name": "BB",
-    "slogan": "BB",
+    "name": "GG Bond",
+    "slogan": "A brave and adventurous pig",
+    "description": "A brave and adventurous pig",
     "imgSrc": "http://39.103.58.152:5244/d/oss/zzx.jpeg",
     "url": "/"
   }
